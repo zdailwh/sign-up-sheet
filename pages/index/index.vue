@@ -1,15 +1,5 @@
-<template>
-	<view v-if="isCanUse" class="loginWrap">
-		<view class='header'>
-			<image src='../../static/image/wx_login.png'></image>
-		</view>
-		<view class='content'>
-			<view>申请获取以下权限</view>
-			<text>获得你的公开信息(昵称，头像、地区等)</text>
-		</view>
-		<button class='bottom' type='primary' open-type="getUserInfo" withCredentials="true" lang="zh_CN" @getuserinfo="wxGetUserInfo">授权登录</button>
-	</view>
-	<view v-else>
+<template>	
+	<view v-if="!showSuccess">
 		<uni-forms :value="formData" ref="form">
 			<view class="formTitle">请如实填写以下信息</view>
 			<view class="formWrap">
@@ -19,31 +9,31 @@
 				<uni-forms-item name="sex" label="性别" label-align="left">
 					<uni-data-checkbox v-model="formData.sex" :localdata="sexArr"/>
 				</uni-forms-item>
-				<uni-forms-item label="身份证号" name="IDCard" label-align="left">
-					<uni-easyinput required type="idcard" v-model="formData.IDCard" placeholder="请输入身份证号" />
+				<uni-forms-item label="身份证号" name="idc_no" label-align="left">
+					<uni-easyinput required type="idcard" v-model="formData.idc_no" placeholder="请输入身份证号" />
 				</uni-forms-item>
-				<uni-forms-item label="联系电话" name="mobile" label-align="left">
-					<uni-easyinput required type="number" v-model="formData.mobile" placeholder="联系电话" />
+				<uni-forms-item label="联系电话" name="contract_number" label-align="left">
+					<uni-easyinput required type="number" v-model="formData.contract_number" placeholder="联系电话" />
 				</uni-forms-item>
 				<uni-forms-item label="户口" name="household" label-align="left">
 					<uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户口所在地" @focus="openPicker()"/>
 				</uni-forms-item>
-				<uni-forms-item label="派出所" name="policeStation" label-align="left">
-					<uni-easyinput required type="text" v-model="formData.policeStation" placeholder="请输入户口所在派出所" />
+				<uni-forms-item label="派出所" name="officer_name" label-align="left">
+					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入户口所在派出所" />
 				</uni-forms-item>
 			</view>
 			<view class="formTitle">请选择预约报名日期</view>
 			<view class="formWrap">
-				<uni-forms-item label="报名日期" name="orderDate" label-align="left">
-					<uni-easyinput required v-model="formData.orderDate" disabled="true" placeholder="报名日期" />
+				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
+					<uni-easyinput required v-model="formData.apply_date" disabled="true" placeholder="报名日期" />
 				</uni-forms-item>
-				<!-- <uni-forms-item label="报名日期" name="orderDate" label-align="left">
-					<picker mode="date" :value="formData.orderDate" start="2021-07-25" end="2021-08-25" @change="bindDateChange">
-						<view class="dateWrap"><text v-if="formData.orderDate">{{formData.orderDate}}</text><text style="color: grey;" v-else>请选择日期</text></view>
+				<!-- <uni-forms-item label="报名日期" name="apply_date" label-align="left">
+					<picker mode="date" :value="formData.apply_date" start="2021-07-25" end="2021-08-25" @change="bindDateChange">
+						<view class="dateWrap"><text v-if="formData.apply_date">{{formData.apply_date}}</text><text style="color: grey;" v-else>请选择日期</text></view>
 					</picker>
 				</uni-forms-item> -->
-				<uni-forms-item name="orderTime" label="时间段" label-align="left">
-					<uni-data-checkbox v-model="formData.orderTime" :localdata="orderTimeArr"/>
+				<uni-forms-item name="am_pm" label="时间段" label-align="left">
+					<uni-data-checkbox v-model="formData.am_pm" :localdata="am_pmArr"/>
 				</uni-forms-item>
 			</view>
 		</uni-forms>
@@ -73,6 +63,17 @@
 			</view>
 		</uni-popup>
 	</view>
+	<view v-else class="resultWrap">
+		<view class="iconWrap">
+			<icon type="success" size="60"/>
+		</view>
+		<view class="titleWrap">
+			预约成功
+		</view>
+		<view class="contWrap">
+			恭喜您预约成功！你的排队号码是<text class="bold">{{applyRes.no}}</text>号，<br>请于<text class="bold">{{applyRes.apply_date}}{{parseInt(applyRes.am_pm) === 1? '上午' : '下午'}}</text><br>携相关材料到校报到。
+		</view>
+	</view>
 </template>
 
 <script>
@@ -84,11 +85,8 @@ export default {
 	data() {
 		return {
 			agree: [],
-			SessionKey: '',
-			OpenId: '',
-			nickName: null,
-			avatarUrl: null,
-			isCanUse: uni.getStorageSync('isCanUse') || false, // 默认为true
+			applyRes: {},
+			showSuccess: false,
 			lotusAddressData:{
 				visible:false,
 				provinceName:'',
@@ -98,12 +96,15 @@ export default {
 			formData:{
 				name:'',
 				sex:'',
-				IDCard: '',
-				mobile: '',
+				idc_no: '',
+				contract_number: '',
 				household: '',
-				policeStation: '',
-				orderDate: '',
-				orderTime: ''
+				province: "北京市",
+				city: "北京市",
+				area: "朝阳区",
+				officer_name: '',
+				apply_date: '',
+				am_pm: ''
 			},
 			sexArr: [{
 				text: '男',
@@ -112,12 +113,12 @@ export default {
 				text: '女',
 				value: 2
 			}],
-			orderTimeArr: [{
+			am_pmArr: [{
 				text: '上午',
-				value: '上午'
+				value: 1
 			}, {
 				text: '下午',
-				value: '下午'
+				value: 2
 			}],
 			rules: {
 				name: {
@@ -131,7 +132,7 @@ export default {
 						{ required: true, errorMessage: '请选择性别' }
 					]
 				},
-				IDCard: {
+				idc_no: {
 					rules: [
 						{ required: true, errorMessage: '请输入身份证号' },
 						{
@@ -142,12 +143,17 @@ export default {
 								if (res==false) {
 									callback('身份证号格式错误')
 								}
+								var birthday = getBirthdayFromIdCard(value)
+								var y = birthday.substr(0,4)
+								if (y < 2013 || y > 2014) {
+									callback('您的出生日期不在2013到2014年')
+								}
 								return true
 							}
 						}
 					]
 				},
-				mobile: {
+				contract_number: {
 					rules: [
 						{ required: true, errorMessage: '请输入联系电话' },
 						{
@@ -168,17 +174,17 @@ export default {
 						{ required: true, errorMessage: '请选择户口所在地' }
 					]
 				},
-				policeStation: {
+				officer_name: {
 					rules: [
 						{ required: true, errorMessage: '请输入户口所在派出所' }
 					]
 				},
-				orderDate: {
+				apply_date: {
 					rules: [
 						{ required: true, errorMessage: '请选择预约报名日期' }
 					]
 				},
-				orderTime: {
+				am_pm: {
 					rules: [
 						{ required: true, errorMessage: '请选择预约报名时间段' }
 					]
@@ -188,22 +194,34 @@ export default {
 	},
 	onReady() {
 		// 显示招生公告
-		// this.open()
+		this.open()
+		// 设置地址
+		this.lotusAddressData.provinceName = '山西省'
+		this.lotusAddressData.cityName = '晋城市'
+		this.lotusAddressData.townName = '城区'
+		this.formData.household = `山西省 晋城市 城区` //region为已选的省市区的值
+		this.formData.province = '山西省'
+		this.formData.city = '晋城市'
+		this.formData.area = '城区'
+		// 设置预约时间和时段
 		var today = new Date().toLocaleDateString()
 		var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
 		console.log(this.parseTime(today) + '/' + this.parseTime(tomorrow))
-		this.formData.orderDate = this.parseTime(tomorrow)
+		this.formData.apply_date = this.parseTime(tomorrow)
 		var nowH = new Date().getHours()
 		if (nowH < 13) {
-			this.formData.orderTime = '上午'
+			this.formData.am_pm = 1
 		} else {
-			this.formData.orderTime = '下午'
+			this.formData.am_pm = 2
 		}
 
 		this.$refs.form.setRules(this.rules)
 	},
-	onLoad() {//默认加载
-		this.login()
+	onLoad() {
+		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
+			console.log('去登录')
+			this.login()			
+		}
 	},
 	methods: {
 		binddata(key, val) {
@@ -221,26 +239,47 @@ export default {
 		submitForm(form) {
 			// 手动提交表单
 			this.$refs.form.submit().then((res)=>{
-				console.log('表单返回得值：', res)
+				var formdata = this.formData
+				formdata.user_id = uni.getStorageSync('user_id')
 				uni.showLoading({
 					title: '正在提交'
 				})
-				setTimeout(function () {
-				    uni.hideLoading()
-					uni.redirectTo({
-						url: '/pages/result/success'
-					})
-				}, 2000)
+				uni.request({
+				    url: 'https://school.jiankangzhuzhang.com/user/apply', 
+					method: 'POST',
+				    data: formdata,
+				    header: {
+				        'token': uni.getStorageSync('session_key') //自定义请求头信息
+				    },
+				    success: (res) => {
+						uni.hideLoading()
+						if (res.data.httpCode === 200 && res.data.message === '预约成功') {
+							this.applyRes = res.data.data
+							this.showSuccess = true
+						} else {
+							uni.showToast({
+							    title: res.data.message,
+								icon: 'none',
+							    duration: 3000
+							})
+						}
+				    },
+					fail: (err) => {
+						uni.hideLoading()
+						console.log(err)
+						uni.showToast({
+						    title: '请求出错，请稍后再试！',
+							icon: 'none',
+						    duration: 3000
+						})
+					}
+				})
 			}).catch(err =>{
-                console.log('表单错误信息：', err);
             })
 		},
 		//打开picker
 		openPicker() {
 			this.lotusAddressData.visible = true
-			this.lotusAddressData.provinceName = '山西省'
-			this.lotusAddressData.cityName = '晋城市'
-			this.lotusAddressData.townName = '城区'
 		},
 		//回传已选的省市区的值
 		choseValue(res){
@@ -253,96 +292,13 @@ export default {
 				this.lotusAddressData.cityName = res.city //市
 				this.lotusAddressData.townName = res.town //区
 				this.formData.household = `${res.province} ${res.city} ${res.town}` //region为已选的省市区的值
+				this.formData.province = res.province //省
+				this.formData.city = res.city //市
+				this.formData.area = res.town //区
 			}
 		},
 		bindDateChange: function(e) {
-			this.formData.orderDate = e.target.value
-		},
-		//第一授权获取用户信息===》按钮触发
-		wxGetUserInfo() {
-			let _this = this
-			uni.getUserInfo({
-				provider: 'weixin',
-				success: function(infoRes) {
-					let nickName = infoRes.userInfo.nickName //昵称
-					let avatarUrl = infoRes.userInfo.avatarUrl //头像
-					try {
-						uni.setStorageSync('isCanUse', false) //记录是否第一次授权  false:表示不是第一次授权
-						_this.updateUserInfo()
-					} catch (e) {}
-				},
-				fail(res) {}
-			})
-		},
-		
-		//登录
-		login() {
-			let _this = this
-			uni.showLoading({
-				title: '登录中...'
-			})	 
-			// 1.wx获取登录用户code
-			uni.login({
-				provider: 'weixin',
-				success: function(loginRes) {
-					let code = loginRes.code
-					if (!_this.isCanUse) {
-						//非第一次授权获取用户信息
-						uni.getUserInfo({
-							provider: 'weixin',
-							success: function(infoRes) {
-	　　　　　　　　　　　　　//获取用户信息后向调用信息更新方法
-								let nickName = infoRes.userInfo.nickName //昵称
-								let avatarUrl = infoRes.userInfo.avatarUrl //头像
-								_this.updateUserInfo() //调用更新信息方法
-							}
-						})
-					}
-					//2.将用户登录code传递到后台置换用户SessionKey、OpenId等信息
-					uni.request({
-						url: '服务器地址',
-						data: {
-							code: code,
-						},
-						method: 'GET',
-						header: {
-							'content-type': 'application/json'
-						},
-						success: (res) => {
-							//openId、或SessionKdy存储//隐藏loading
-							uni.hideLoading()
-						},
-						fail: (res) => {
-							uni.hideLoading()
-							console.log(res.errMsg)
-						}
-					})
-				}
-			})
-		},
-		 //向后台更新信息
-		updateUserInfo() {
-			let _this = this
-			uni.request({
-				url:'url' ,//服务器端地址
-				data: {
-					appKey: this.$store.state.appKey,
-					customerId: _this.customerId,
-					nickName: _this.nickName,
-					headUrl: _this.avatarUrl
-				},
-				method: 'POST',
-				header: {
-					'content-type': 'application/json'
-				},
-				success: (res) => {
-					if (res.data.state == "success") {
-						uni.reLaunch({//信息更新成功后跳转到小程序首页
-							url: '/pages/index/index'
-						})
-					}
-				}
-			})
+			this.formData.apply_date = e.target.value
 		},
 		parseTime(time) {
 		  const date = new Date(time)
@@ -359,8 +315,56 @@ export default {
 		  }
 		
 		  return `${formatObj.y}-${formatObj.m.toString().padStart(2, '0')}-${formatObj.d.toString().padStart(2, '0')}`
+		},
+		//登录
+		login() {
+			let _this = this
+			uni.showLoading({
+				title: '登录中...'
+			})	 
+			// 1.wx获取登录用户code
+			uni.login({
+				provider: 'weixin',
+				success: function(loginRes) {
+					let code = loginRes.code
+					//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
+					uni.request({
+						url: 'https://school.jiankangzhuzhang.com/user/login',
+						data: {
+							code: code,
+						},
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						success: (res) => {
+							//openId、或SessionKdy存储//隐藏loading
+							console.log('login response')
+							console.log(res)
+							uni.setStorageSync('session_key', res.data.data.session_key)
+							uni.setStorageSync('user_id', res.data.data.user_id)
+							uni.hideLoading()
+						},
+						fail: (res) => {
+							uni.hideLoading()
+							console.log(res.errMsg)
+						}
+					})
+				}
+			})
 		}
 	}
+}
+function getBirthdayFromIdCard(idCard) {
+	var birthday = ''
+	if(idCard !== null && idCard !== '') {  
+		if(idCard.length === 15) {  
+			birthday = '19'+idCard.substr(6, 6)
+		} else if (idCard.length === 18) {  
+			birthday = idCard.substr(6, 8)
+		}
+	}
+	return birthday
 }
 </script>
 
@@ -463,5 +467,28 @@ input {
 }
 .noticeWrap .buttonWrap {
 	margin: 15rpx auto;
+}
+
+.resultWrap {
+	text-align: center;
+}
+.resultWrap .iconWrap {
+	margin: 70rpx 0 30rpx;
+}
+.resultWrap .titleWrap {
+	font-size: 40rpx;
+	line-height: 60rpx;
+	color: #333;
+}
+.resultWrap .contWrap {
+	margin: 50rpx 30rpx;
+	font-size: 35rpx;
+	color: #555;
+	line-height: 2;
+}
+.resultWrap .contWrap .bold {
+	font-size: 40rpx;
+	color: orange;
+	margin: 0 10rpx;
 }
 </style>
