@@ -56,6 +56,8 @@ export default {
 					uni.hideLoading()
 					if (res.data.httpCode === 200) {
 						this.orders = res.data.data || []
+					} else if (res.data.message === '提供的信息已经过期，请重新登录') {
+						this.login()
 					} else {
 						uni.showToast({
 						    title: res.data.message,

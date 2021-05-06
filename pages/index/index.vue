@@ -274,6 +274,8 @@ export default {
 						if (res.data.httpCode === 200 && res.data.message === '预约成功') {
 							this.applyRes = res.data.data
 							this.showSuccess = true
+						} else if (res.data.message === '提供的信息已经过期，请重新登录') {
+							this.login()
 						} else {
 							uni.showToast({
 							    title: res.data.message,
