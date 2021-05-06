@@ -16,7 +16,8 @@
 					<uni-easyinput required type="number" v-model="formData.contract_number" placeholder="联系电话" />
 				</uni-forms-item>
 				<uni-forms-item label="户口" name="household" label-align="left">
-					<uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户口所在地" @focus="openPicker()"/>
+					<!-- <uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户口所在地" @focus="openPicker()"/> -->
+					<view class="inputView" @click="openPicker()">{{formData.household}}</view>
 				</uni-forms-item>
 				<uni-forms-item label="派出所" name="officer_name" label-align="left">
 					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入户口所在派出所" />
@@ -47,8 +48,8 @@
 			<view class="noticeWrap">
 				<view class="noticeTitle">招生公告</view>
 				<view class="noticeMsg">
-					<view class="noticeItem">1、请认真阅读</view>
-					<view class="noticeItem">2、请认真阅读以下信息请认真阅读以下信息请认真阅读以下信息请认真阅读以下信息请认真阅读以下信息</view>
+					<view class="noticeItem">1、请认真阅读招生公告</view>
+					<view class="noticeItem">2、身份证号仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息</view>
 				</view>
 				<view class="agreeWrap">
 					<checkbox-group @change="binddata('agree', $event.detail.value)">
@@ -98,10 +99,10 @@ export default {
 				sex:'',
 				idc_no: '',
 				contract_number: '',
-				household: '',
-				province: "北京市",
-				city: "北京市",
-				area: "朝阳区",
+				household: '山西省 晋城市 城区',
+				province: "山西省",
+				city: "晋城市",
+				area: "城区",
 				officer_name: '',
 				apply_date: '',
 				am_pm: ''
@@ -195,35 +196,49 @@ export default {
 	onReady() {
 		// 显示招生公告
 		this.open()
-		// 设置地址
-		this.lotusAddressData.provinceName = '山西省'
-		this.lotusAddressData.cityName = '晋城市'
-		this.lotusAddressData.townName = '城区'
-		this.formData.household = `山西省 晋城市 城区` //region为已选的省市区的值
-		this.formData.province = '山西省'
-		this.formData.city = '晋城市'
-		this.formData.area = '城区'
-		// 设置预约时间和时段
-		var today = new Date().toLocaleDateString()
-		var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
-		console.log(this.parseTime(today) + '/' + this.parseTime(tomorrow))
-		this.formData.apply_date = this.parseTime(tomorrow)
-		var nowH = new Date().getHours()
-		if (nowH < 13) {
-			this.formData.am_pm = 1
-		} else {
-			this.formData.am_pm = 2
-		}
-
 		this.$refs.form.setRules(this.rules)
+		this.$refs.form.clearValidate()
 	},
-	onLoad() {
+	onShow() {
+		this.formInit()
 		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
 			console.log('去登录')
-			this.login()			
+			this.login()
 		}
 	},
 	methods: {
+		formInit() {
+			this.$refs.form.clearValidate()
+			this.formData = {
+				name:'',
+				sex:'',
+				idc_no: '',
+				contract_number: '',
+				household: '山西省 晋城市 城区',
+				province: "山西省",
+				city: "晋城市",
+				area: "城区",
+				officer_name: '',
+				apply_date: '',
+				am_pm: ''
+			}
+			// 设置地址
+			this.lotusAddressData.provinceName = '山西省'
+			this.lotusAddressData.cityName = '晋城市'
+			this.lotusAddressData.townName = '城区'
+			
+			// 设置预约时间和时段
+			var today = new Date().toLocaleDateString()
+			var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
+			console.log(this.parseTime(today) + '/' + this.parseTime(tomorrow))
+			this.formData.apply_date = this.parseTime(tomorrow)
+			var nowH = new Date().getHours()
+			if (nowH < 13) {
+				this.formData.am_pm = 1
+			} else {
+				this.formData.am_pm = 2
+			}
+		},
 		binddata(key, val) {
 			this[key] = val
 		},
@@ -490,5 +505,16 @@ input {
 	font-size: 40rpx;
 	color: orange;
 	margin: 0 10rpx;
+}
+
+.inputView {
+	flex: 1;
+	position: relative;
+	font-size: 30rpx;
+	color: #333;
+	line-height: 2.5rem;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding-left: 10px;
 }
 </style>

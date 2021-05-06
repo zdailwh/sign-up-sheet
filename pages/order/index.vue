@@ -30,7 +30,7 @@ export default {
 			orders: []
 		}
 	},
-	onLoad() {
+	onShow() {
 		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
 			console.log('去登录')
 			this.login()			
@@ -101,6 +101,7 @@ export default {
 							uni.setStorageSync('session_key', res.data.data.session_key)
 							uni.setStorageSync('user_id', res.data.data.user_id)
 							uni.hideLoading()
+							_this.getOrders()
 						},
 						fail: (res) => {
 							uni.hideLoading()

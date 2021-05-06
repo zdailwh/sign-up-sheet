@@ -1,5 +1,5 @@
 {
-    "name" : "sign-up-sheet",
+    "name" : "爱物预约排号",
     "appid" : "__UNI__2E83537",
     "description" : "",
     "versionName" : "1.0.0",
@@ -52,7 +52,10 @@
     "mp-weixin" : {
         "appid" : "wxc5a7c75f75d2b0ff",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : false,
+            "postcss" : false,
+            "minified" : false
         },
         "usingComponents" : true
     },
