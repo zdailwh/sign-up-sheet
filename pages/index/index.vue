@@ -40,16 +40,19 @@
 		</uni-forms>
 		<view class="btnWrap">
 			<button type="primary" @click="submitForm">提交</button>
-		</view>		
+		</view>
+		<view class="notice">
+			查看<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator>
+		</view>
 	
 		<lotus-address v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></lotus-address>
 		
 		<uni-popup ref="popup" type="center" :maskClick="false">
 			<view class="noticeWrap">
-				<view class="noticeTitle">招生公告</view>
+				<view class="noticeTitle">预约须知</view>
 				<view class="noticeMsg">
-					<view class="noticeItem">1、请认真阅读招生公告</view>
-					<view class="noticeItem">2、身份证号仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息</view>
+					<view class="noticeItem">1、身份证号、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
+					<view class="noticeItem">2、请仔细阅读<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator></view>
 				</view>
 				<view class="agreeWrap">
 					<checkbox-group @change="binddata('agree', $event.detail.value)">
@@ -468,7 +471,7 @@ input {
 .noticeWrap .noticeMsg {
 	font-size: 30rpx;
 	color: #666;
-	line-height: 1.5;
+	line-height: 1.7;
 	margin-bottom: 20rpx;
 }
 .noticeWrap .noticeMsg .noticeItem {
@@ -516,5 +519,18 @@ input {
 	border: 1px solid #e5e5e5;
 	border-radius: 4px;
 	padding-left: 10px;
+}
+
+.notice {
+	margin: 10rpx 0 30rpx;
+	text-align: center;
+	padding: 0 30rpx;
+	font-size: 30rpx;
+	color: #333;
+	line-height: 2;
+}
+.link {
+	display: inline-block;
+	color: #007AFF;
 }
 </style>

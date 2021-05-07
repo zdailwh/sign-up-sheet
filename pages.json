@@ -17,6 +17,12 @@
 			"style": {
 				"navigationBarTitleText": "预约成功"
 			}
+		},
+		{
+			"path": "pages/index/notice",
+			"style": {
+				"navigationBarTitleText": "招生简章"
+			}
 		}
 	],
 	"globalStyle": {

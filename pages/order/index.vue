@@ -18,6 +18,9 @@
 			<view v-else class="noneOrder">
 				您还没有预约记录！
 			</view>
+			<view class="notice">
+				查看<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator>
+			</view>
 		</view>
 	</view>
 </template>
@@ -136,8 +139,20 @@ page {
 	margin-bottom: 30rpx;
 }
 .noneOrder {
-	font-size: 40rpx;
+	font-size: 35rpx;
 	text-align: center;
 	margin: 50rpx;
+}
+.notice {
+	margin-top: 50rpx;
+	text-align: center;
+	padding: 0 30rpx;
+	font-size: 30rpx;
+	color: #333;
+	line-height: 2;
+}
+.notice .link {
+	display: inline-block;
+	color: #007AFF;
 }
 </style>
