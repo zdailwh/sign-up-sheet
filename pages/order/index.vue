@@ -2,16 +2,22 @@
 	<view>
 		<view v-if="!loading">
 			<view v-if="orders.length">
-				<view class="formTitle">您已成功预约！</view>
 				<view class="orderWrap" v-for="(order,index) in orders" v-key="index">
+					<view class="formTitle">
+						<view class="line1">您已预约成功！</view>
+						<view class="line2">{{order.apply_date}}</view>
+						<view class="line2">{{parseInt(order.am_pm) === 1? '上午' : '下午'}}</view>
+						<view class="line2">{{order.no}}号</view>
+					</view>
 					<uni-list>
 						<uni-list-item title="学生姓名" :rightText="order.name"></uni-list-item>
 						<uni-list-item title="性别" :rightText="parseInt(order.sex) === 1? '男' : '女'"></uni-list-item>
-						<uni-list-item title="身份证号" :rightText="order.idc_no"></uni-list-item>
+						<uni-list-item title="身份证号码" :rightText="order.idc_no"></uni-list-item>
 						<uni-list-item title="联系电话" :rightText="order.contract_number"></uni-list-item>
 						<uni-list-item title="户口所在地" :rightText="order.province + ' ' + order.city + ' ' + order.area"></uni-list-item>
-						<uni-list-item title="派出所" :rightText="order.officer_name"></uni-list-item>
+						<uni-list-item title="家庭住址" :rightText="order.officer_name"></uni-list-item>
 						<uni-list-item title="预约时间" :rightText="order.apply_date + ' ' + (parseInt(order.am_pm) === 1? '上午' : '下午')"></uni-list-item>
+						<uni-list-item title="排号" :rightText="order.no"></uni-list-item>
 					</uni-list>			
 				</view>
 			</view>
@@ -122,14 +128,22 @@ export default {
 
 <style>
 page {
-	background-color: #f5f5f5;
+	background-color: #9fd7e6;
 }
 .formTitle {
-	padding-left: 30rpx;
-	height: 100rpx;
-	line-height: 100rpx;
-	font-size: 32rpx;
-	color: #000;
+	text-align: center;
+	padding: 15rpx;
+}
+.formTitle .line1 {
+	font-size: 40rpx;
+	color: #666;
+	line-height: 60rpx;
+}
+.formTitle .line2 {
+	font-size: 50rpx;
+	font-weight: bold;
+	color: #E93B3D;
+	line-height: 80rpx;
 }
 .uni-list-item__content-title {
 	font-size: 30rpx !important;
@@ -138,7 +152,15 @@ page {
 	font-size: 30rpx !important;
 }
 .orderWrap {
-	margin-bottom: 30rpx;
+	margin: 20rpx 20rpx 30rpx;
+	border-radius: 20rpx;
+	background-color: rgba(255,255,255,.7) !important;
+}
+.orderWrap .uni-list {
+	background-color: transparent;
+}
+.orderWrap .uni-list-item {
+	background-color: transparent;
 }
 .noneOrder {
 	font-size: 35rpx;

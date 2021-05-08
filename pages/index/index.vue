@@ -1,6 +1,9 @@
 <template>	
 	<view v-if="!showSuccess">
-		<uni-forms :value="formData" ref="form">
+		<view class="logoWrap">
+			<image src="../../static/image/logo.png" mode="widthFix"></image>
+		</view>
+		<uni-forms :value="formData" ref="form" labelWidth="80">
 			<view class="formTitle">请如实填写以下信息</view>
 			<view class="formWrap">
 				<uni-forms-item label="学生姓名" name="name" label-align="left">
@@ -9,18 +12,18 @@
 				<uni-forms-item name="sex" label="性别" label-align="left">
 					<uni-data-checkbox v-model="formData.sex" :localdata="sexArr"/>
 				</uni-forms-item>
-				<uni-forms-item label="身份证号" name="idc_no" label-align="left">
-					<uni-easyinput required type="idcard" v-model="formData.idc_no" placeholder="请输入身份证号" />
+				<uni-forms-item label="身份证号码" name="idc_no" label-align="left">
+					<uni-easyinput required type="idcard" v-model="formData.idc_no" placeholder="请输入身份证号码" />
 				</uni-forms-item>
 				<uni-forms-item label="联系电话" name="contract_number" label-align="left">
 					<uni-easyinput required type="number" v-model="formData.contract_number" placeholder="联系电话" />
 				</uni-forms-item>
-				<uni-forms-item label="户口" name="household" label-align="left">
+				<uni-forms-item label="户口所在地" name="household" label-align="left">
 					<!-- <uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户口所在地" @focus="openPicker()"/> -->
 					<view class="inputView" @click="openPicker()">{{formData.household}}</view>
 				</uni-forms-item>
-				<uni-forms-item label="派出所" name="officer_name" label-align="left">
-					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入户口所在派出所" />
+				<uni-forms-item label="家庭住址" name="officer_name" label-align="left">
+					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入家庭住址" />
 				</uni-forms-item>
 			</view>
 			<view class="formTitle">请选择预约报名日期</view>
@@ -51,7 +54,7 @@
 			<view class="noticeWrap">
 				<view class="noticeTitle">预约须知</view>
 				<view class="noticeMsg">
-					<view class="noticeItem">1、身份证号、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
+					<view class="noticeItem">1、身份证号码、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
 					<view class="noticeItem">2、请仔细阅读<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator></view>
 				</view>
 				<view class="agreeWrap">
@@ -76,6 +79,7 @@
 		</view>
 		<view class="contWrap">
 			恭喜您预约成功！你的排队号码是<text class="bold">{{applyRes.no}}</text>号，<br>请于<text class="bold">{{applyRes.apply_date}}{{parseInt(applyRes.am_pm) === 1? '上午' : '下午'}}</text><br>携相关材料到校报到。
+			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关材料到校报到。 -->
 		</view>
 	</view>
 </template>
@@ -138,14 +142,14 @@ export default {
 				},
 				idc_no: {
 					rules: [
-						{ required: true, errorMessage: '请输入身份证号' },
+						{ required: true, errorMessage: '请输入身份证号码' },
 						{
 							validateFunction:function(rule,value,data,callback) {
 								var re15 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/
 								var re18 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
 								var res = (re15.test(value) || re18.test(value))
 								if (res==false) {
-									callback('身份证号格式错误')
+									callback('身份证号码格式错误')
 								}
 								var birthday = getBirthdayFromIdCard(value)
 								var y = birthday.substr(0,4)
@@ -180,7 +184,7 @@ export default {
 				},
 				officer_name: {
 					rules: [
-						{ required: true, errorMessage: '请输入户口所在派出所' }
+						{ required: true, errorMessage: '请输入家庭住址' }
 					]
 				},
 				apply_date: {
@@ -390,7 +394,7 @@ function getBirthdayFromIdCard(idCard) {
 
 <style>
 page {
-	background-color: #f5f5f5;
+	background-color: #9fd7e6;
 }
 .uni-forms-item__label .label-text {
 	font-size: 30rpx !important;
@@ -409,14 +413,30 @@ input {
 	height: 100rpx;
 	line-height: 100rpx;
 	font-size: 32rpx;
-	color: #000;
+	color: #666;
 }
 .formWrap {
 	padding: 15px 15px 0 15px;
-	background-color: #fff;
+	/* background-color: rgba(159,215,230,.5); */
+	background-color: rgba(255,255,255,.7);
 }
 .btnWrap {
 	padding: 15px;
+}
+.btnWrap button, .buttonWrap button {
+	background-color: #206fb1;
+}
+.btnWrap button[disabled], .buttonWrap button[disabled] {
+	background-color: #206fb1;
+}
+.btnWrap button:hover, .buttonWrap button:hover {
+	background-color: #206fb1;
+}
+.btnWrap button:focus, .buttonWrap button:focus {
+	background-color: #206fb1;
+}
+.btnWrap button:active, .buttonWrap button:active {
+	background-color: #206fb1;
 }
 .dateWrap {
 	display: flex;
@@ -507,7 +527,8 @@ input {
 	line-height: 2;
 }
 .resultWrap .contWrap .bold {
-	font-size: 40rpx;
+	font-size: 50rpx;
+	font-weight: bold;
 	color: orange;
 	margin: 0 10rpx;
 }
@@ -534,5 +555,13 @@ input {
 .link {
 	display: inline-block;
 	color: #007AFF;
+}
+.logoWrap {
+	
+}
+.logoWrap image {
+	display: block;
+	width: 450rpx;
+	margin: 20rpx auto;
 }
 </style>
