@@ -1,5 +1,5 @@
 <template>	
-	<view v-if="!showSuccess">
+	<view>
 		<view class="logoWrap">
 			<image src="../../static/image/logo.png" mode="widthFix"></image>
 		</view>
@@ -28,21 +28,21 @@
 			</view>
 			<view class="formTitle">请选择预约报名日期</view>
 			<view class="formWrap">
-				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
-					<uni-easyinput required v-model="formData.apply_date" disabled="true" placeholder="报名日期" />
-				</uni-forms-item>
 				<!-- <uni-forms-item label="报名日期" name="apply_date" label-align="left">
-					<picker mode="date" :value="formData.apply_date" start="2021-07-25" end="2021-08-25" @change="bindDateChange">
+					<uni-easyinput required v-model="formData.apply_date" disabled="true" placeholder="报名日期" />
+				</uni-forms-item> -->
+				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
+					<picker mode="date" :value="formData.apply_date" :start="startDate" :end="endDate" @change="bindDateChange">
 						<view class="dateWrap"><text v-if="formData.apply_date">{{formData.apply_date}}</text><text style="color: grey;" v-else>请选择日期</text></view>
 					</picker>
-				</uni-forms-item> -->
+				</uni-forms-item>
 				<uni-forms-item name="am_pm" label="时间段" label-align="left">
 					<uni-data-checkbox v-model="formData.am_pm" :localdata="am_pmArr"/>
 				</uni-forms-item>
 			</view>
 		</uni-forms>
 		<view class="btnWrap">
-			<button type="primary" @click="submitForm">提交</button>
+			<button type="primary" @click="submitForm">预约</button>
 		</view>
 		<view class="notice">
 			查看<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator>
@@ -70,22 +70,27 @@
 			</view>
 		</uni-popup>
 	</view>
-	<view v-else class="resultWrap">
-		<view class="iconWrap">
-			<icon type="success" size="60"/>
-		</view>
-		<view class="titleWrap">
-			预约成功
-		</view>
-		<view class="contWrap">
-			恭喜您预约成功！你的排队号码是<text class="bold">{{applyRes.no}}</text>号，<br>请于<text class="bold">{{applyRes.apply_date}}{{parseInt(applyRes.am_pm) === 1? '上午' : '下午'}}</text><br>携相关材料到校报到。
-			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关材料到校报到。 -->
-		</view>
-	</view>
 </template>
 
 <script>
 import lotusAddress from "../../components/Winglau14-lotusAddress/Winglau14-lotusAddress.vue"
+var temp = {
+	am_pm: 1,
+	apply_date: "2021-05-03",
+	area: "城区",
+	city: "晋城市",
+	contract_number: "18601949678",
+	created_at: null,
+	id: 5,
+	idc_no: "140430199004083223",
+	name: "赵丹",
+	no: 3,
+	officer_name: "东西派出所",
+	province: "山西省",
+	sex: 2,
+	updated_at: null,
+	user_id: 2
+}
 export default {
 	components:{
 	    "lotus-address":lotusAddress
@@ -94,7 +99,6 @@ export default {
 		return {
 			agree: [],
 			applyRes: {},
-			showSuccess: false,
 			lotusAddressData:{
 				visible:false,
 				provinceName:'',
@@ -197,17 +201,20 @@ export default {
 						{ required: true, errorMessage: '请选择预约报名时间段' }
 					]
 				},
-			}
+			},
+			startDate: '',
+			endDate: ''
 		}
+	},
+	onLoad() {
+		this.formInit()
 	},
 	onReady() {
 		// 显示招生公告
 		this.open()
 		this.$refs.form.setRules(this.rules)
-		this.$refs.form.clearValidate()
 	},
 	onShow() {
-		this.formInit()
 		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
 			console.log('去登录')
 			this.login()
@@ -216,19 +223,19 @@ export default {
 	methods: {
 		formInit() {
 			this.$refs.form.clearValidate()
-			this.formData = {
-				name:'',
-				sex:'',
-				idc_no: '',
-				contract_number: '',
-				household: '山西省 晋城市 城区',
-				province: "山西省",
-				city: "晋城市",
-				area: "城区",
-				officer_name: '',
-				apply_date: '',
-				am_pm: ''
-			}
+			// this.formData = {
+			// 	name:'',
+			// 	sex:'',
+			// 	idc_no: '',
+			// 	contract_number: '',
+			// 	household: '山西省 晋城市 城区',
+			// 	province: "山西省",
+			// 	city: "晋城市",
+			// 	area: "城区",
+			// 	officer_name: '',
+			// 	apply_date: '',
+			// 	am_pm: ''
+			// }
 			// 设置地址
 			this.lotusAddressData.provinceName = '山西省'
 			this.lotusAddressData.cityName = '晋城市'
@@ -238,12 +245,19 @@ export default {
 			var today = new Date().toLocaleDateString()
 			var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
 			console.log(this.parseTime(today) + '/' + this.parseTime(tomorrow))
-			this.formData.apply_date = this.parseTime(tomorrow)
 			var nowH = new Date().getHours()
-			if (nowH < 13) {
-				this.formData.am_pm = 1
-			} else {
+			if (nowH < 12) {
+				// 12点前约今天下午的号
 				this.formData.am_pm = 2
+				this.formData.apply_date = this.parseTime(today)
+				this.startDate = today
+				this.endDate = today
+			} else {
+				// 12点后约明天上午的号
+				this.formData.am_pm = 1
+				this.formData.apply_date = this.parseTime(tomorrow)
+				this.startDate = tomorrow
+				this.endDate = tomorrow
 			}
 		},
 		binddata(key, val) {
@@ -259,44 +273,15 @@ export default {
 			}
 		},
 		submitForm(form) {
+			// uni.navigateTo({
+			// 	url: '/pages/index/confirm?formData=' + JSON.stringify(temp)
+			// })
 			// 手动提交表单
 			this.$refs.form.submit().then((res)=>{
 				var formdata = this.formData
 				formdata.user_id = uni.getStorageSync('user_id')
-				uni.showLoading({
-					title: '正在提交'
-				})
-				uni.request({
-				    url: 'https://school.jiankangzhuzhang.com/user/apply', 
-					method: 'POST',
-				    data: formdata,
-				    header: {
-				        'token': uni.getStorageSync('session_key') //自定义请求头信息
-				    },
-				    success: (res) => {
-						uni.hideLoading()
-						if (res.data.httpCode === 200 && res.data.message === '预约成功') {
-							this.applyRes = res.data.data
-							this.showSuccess = true
-						} else if (res.data.message === '提供的信息已经过期，请重新登录') {
-							this.login()
-						} else {
-							uni.showToast({
-							    title: res.data.message,
-								icon: 'none',
-							    duration: 3000
-							})
-						}
-				    },
-					fail: (err) => {
-						uni.hideLoading()
-						console.log(err)
-						uni.showToast({
-						    title: '请求出错，请稍后再试！',
-							icon: 'none',
-						    duration: 3000
-						})
-					}
+				uni.navigateTo({
+					url: '/pages/index/confirm?formData=' + JSON.stringify(formdata)
 				})
 			}).catch(err =>{
             })
@@ -507,30 +492,6 @@ input {
 }
 .noticeWrap .buttonWrap {
 	margin: 15rpx auto;
-}
-
-.resultWrap {
-	text-align: center;
-}
-.resultWrap .iconWrap {
-	margin: 70rpx 0 30rpx;
-}
-.resultWrap .titleWrap {
-	font-size: 40rpx;
-	line-height: 60rpx;
-	color: #333;
-}
-.resultWrap .contWrap {
-	margin: 50rpx 30rpx;
-	font-size: 35rpx;
-	color: #555;
-	line-height: 2;
-}
-.resultWrap .contWrap .bold {
-	font-size: 50rpx;
-	font-weight: bold;
-	color: orange;
-	margin: 0 10rpx;
 }
 
 .inputView {

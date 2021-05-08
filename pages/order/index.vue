@@ -8,6 +8,7 @@
 						<view class="line2">{{order.apply_date}}</view>
 						<view class="line2">{{parseInt(order.am_pm) === 1? '上午' : '下午'}}</view>
 						<view class="line2">{{order.no}}号</view>
+						<view class="line1">预计您的办理时间在{{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{ order.begintime }}，请提前10分钟到场！</view>
 					</view>
 					<uni-list>
 						<uni-list-item title="学生姓名" :rightText="order.name"></uni-list-item>
@@ -18,7 +19,7 @@
 						<uni-list-item title="家庭住址" :rightText="order.officer_name"></uni-list-item>
 						<uni-list-item title="预约时间" :rightText="order.apply_date + ' ' + (parseInt(order.am_pm) === 1? '上午' : '下午')"></uni-list-item>
 						<uni-list-item title="排号" :rightText="order.no"></uni-list-item>
-					</uni-list>			
+					</uni-list>
 				</view>
 			</view>
 			<view v-else class="noneOrder">
@@ -62,6 +63,16 @@ export default {
 					uni.hideLoading()
 					if (res.data.httpCode === 200) {
 						this.orders = res.data.data || []
+						this.orders.map((item) => {
+							if (item.am_pm === 1) {
+								var minit = item.no * 4
+								var begintime = this.minitPlus('8:00', minit)
+							} else if (item.am_pm === 2) {
+								var minit = item.no * 4
+								var begintime = this.minitPlus('13:00', minit)
+							}
+							item.begintime = begintime
+						})
 					} else if (res.data.message === '提供的信息已经过期，请重新登录') {
 						this.login()
 					} else {
@@ -83,6 +94,19 @@ export default {
 					})
 				}
 			})
+		},
+		minitPlus (time, minit) {
+			var h = parseInt(time.split(':')[0])
+			var m = parseInt(time.split(':')[1])
+			var totalM = m + minit
+			if (totalM > 60) {
+				h = parseInt(totalM / 60) + h
+				m = totalM % 60
+			} else {
+				m = totalM
+			}
+			console.log(h + ':' + m)
+			return h + ':' + m
 		},
 		//登录
 		login() {
@@ -152,7 +176,7 @@ page {
 	font-size: 30rpx !important;
 }
 .orderWrap {
-	margin: 20rpx 20rpx 30rpx;
+	margin: 30rpx 30rpx 30rpx;
 	border-radius: 20rpx;
 	background-color: rgba(255,255,255,.7) !important;
 }
@@ -168,7 +192,7 @@ page {
 	margin: 50rpx;
 }
 .notice {
-	margin-top: 50rpx;
+	margin: 50rpx 0;
 	text-align: center;
 	padding: 0 30rpx;
 	font-size: 30rpx;
