@@ -7,6 +7,12 @@
 			}
 		},
 		{
+			"path": "pages/index/confirm",
+			"style": {
+				"navigationBarTitleText": "确认信息"
+			}
+		},
+		{
 			"path": "pages/order/index",
 			"style": {
 				"navigationBarTitleText": "预约记录"
