@@ -8,7 +8,7 @@
 						<view class="line2">{{order.apply_date}}</view>
 						<view class="line2">{{parseInt(order.am_pm) === 1? '上午' : '下午'}}</view>
 						<view class="line2">{{order.no}}号</view>
-						<view class="line1">预计您的办理时间在{{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{ order.begintime }}，请提前10分钟到场！</view>
+						<view class="line3">预计您的办理时间在{{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{ order.begintime }}，请提前10分钟到场！</view>
 					</view>
 					<uni-list>
 						<uni-list-item title="学生姓名" :rightText="order.name"></uni-list-item>
@@ -65,10 +65,10 @@ export default {
 						this.orders = res.data.data || []
 						this.orders.map((item) => {
 							if (item.am_pm === 1) {
-								var minit = item.no * 4
+								var minit = (item.no - 1) * 4
 								var begintime = this.minitPlus('8:00', minit)
 							} else if (item.am_pm === 2) {
-								var minit = item.no * 4
+								var minit = (item.no - 1) * 4
 								var begintime = this.minitPlus('13:00', minit)
 							}
 							item.begintime = begintime
@@ -99,14 +99,20 @@ export default {
 			var h = parseInt(time.split(':')[0])
 			var m = parseInt(time.split(':')[1])
 			var totalM = m + minit
-			if (totalM > 60) {
+			if (totalM >= 60) {
 				h = parseInt(totalM / 60) + h
 				m = totalM % 60
 			} else {
 				m = totalM
 			}
-			console.log(h + ':' + m)
-			return h + ':' + m
+			return h + ':' + this.padStart(m)
+		},
+		padStart(val) {
+			if (val < 10) {
+				return '0' + val
+			} else {
+				return val
+			}
 		},
 		//登录
 		login() {
@@ -168,6 +174,11 @@ page {
 	font-weight: bold;
 	color: #E93B3D;
 	line-height: 80rpx;
+}
+.formTitle .line3 {
+	font-size: 30rpx;
+	color: #666;
+	line-height: 50rpx;
 }
 .uni-list-item__content-title {
 	font-size: 30rpx !important;
