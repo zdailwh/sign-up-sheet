@@ -7,8 +7,11 @@
 			预约成功
 		</view>
 		<view class="contWrap">
-			恭喜您预约成功！你的排队号码是<text class="bold">{{order.no}}</text>号，<br>请于<text class="bold">{{order.apply_date}}{{parseInt(order.am_pm) === 1? '上午' : '下午'}}</text><br>携相关材料到校报到。
+			恭喜您预约成功！你的排队号码是<text class="bold">{{order.no}}</text>号，<br>请于<text class="bold">{{order.apply_date}} {{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{order.begintime}}</text><br>携相关材料到校报到。
 			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关材料到校报到。 -->
+		</view>
+		<view class="importNotice">
+			提示：请务必提前十分钟到。号码过期作废。
 		</view>
 		<view class="notice">
 			查看<navigator url="/pages/order/index" open-type="switchTab" hover-class="none" class="link">我的预约 </navigator>
@@ -20,12 +23,50 @@
 	export default {
 		data() {
 			return {
+				am_begin: '8:00',
+				pm_begin: '14:30',
+				gap: 4,
 				order: {}
 			}
 		},
 	    onLoad: function (option) {
 			this.order = JSON.parse(option.order) || {}
-	    }
+			if (this.order.id) {
+				this.calcBegintime()
+			}
+	    },
+		methods: {
+			calcBegintime() {
+				if (this.order.am_pm === 1) {
+					var minit = (this.order.no - 1) * this.gap
+					var begintime = this.minitPlus(this.am_begin, minit)
+				} else if (this.order.am_pm === 2) {
+					var minit = (this.order.no - 1) * this.gap
+					var begintime = this.minitPlus(this.pm_begin, minit)
+				}
+				this.order.begintime = begintime
+			},
+			minitPlus (time, minit) {
+				var h = parseInt(time.split(':')[0])
+				var m = parseInt(time.split(':')[1])
+				var totalM = m + minit
+				if (totalM >= 60) {
+					h = parseInt(totalM / 60) + h
+					m = totalM % 60
+				} else {
+					m = totalM
+				}
+				console.log(h + ':' + this.padStart(m))
+				return h + ':' + this.padStart(m)
+			},
+			padStart(val) {
+				if (val < 10) {
+					return '0' + val
+				} else {
+					return val
+				}
+			}
+		}
 	}
 </script>
 
@@ -69,5 +110,10 @@ page {
 	display: inline-block;
 	color: #007AFF;
 	margin: 0 10rpx;
+}
+.importNotice {
+	margin: 30rpx;
+	font-size: 30rpx;
+	color: #f00;
 }
 </style>

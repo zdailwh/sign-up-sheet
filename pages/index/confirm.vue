@@ -15,7 +15,7 @@
 				<uni-forms-item label="联系电话" name="contract_number" label-align="left">
 					<view class="inputView">{{formData.contract_number}}</view>
 				</uni-forms-item>
-				<uni-forms-item label="户口所在地" name="household" label-align="left">
+				<uni-forms-item label="户籍所在地" name="household" label-align="left">
 					<view class="inputView">{{formData.province + ' ' + formData.city + ' ' + formData.area}}</view>
 				</uni-forms-item>
 				<uni-forms-item label="家庭住址" name="officer_name" label-align="left">
@@ -46,7 +46,7 @@
 			this.formData = JSON.parse(option.formData) || {}
 		},
 		methods: {
-			submitForm(form) {
+			submitForm() {
 				// uni.redirectTo({
 				// 	url: '/pages/result/success?order=' + JSON.stringify(this.formData)
 				// })
@@ -88,7 +88,51 @@
 							})
 						}
 					})
-				}
+				} else {
+					uni.showToast({
+						title: '无效userid',
+						icon: 'none',
+						duration: 3000
+					})
+				}	
+			},
+			//登录
+			login() {
+				let _this = this
+				uni.showLoading({
+					title: '登录中...'
+				})	 
+				// 1.wx获取登录用户code
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						let code = loginRes.code
+						//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
+						uni.request({
+							url: 'https://school.jiankangzhuzhang.com/user/login',
+							data: {
+								code: code,
+							},
+							method: 'POST',
+							header: {
+								'content-type': 'application/json'
+							},
+							success: (res) => {
+								//openId、或SessionKdy存储//隐藏loading
+								console.log('login response')
+								console.log(res)
+								uni.setStorageSync('session_key', res.data.data.session_key)
+								uni.setStorageSync('user_id', res.data.data.user_id)
+								uni.hideLoading()
+								_this.submitForm()
+							},
+							fail: (res) => {
+								uni.hideLoading()
+								console.log(res.errMsg)
+							}
+						})
+					}
+				})
 			}
 		}
 	}

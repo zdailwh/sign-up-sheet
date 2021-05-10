@@ -18,19 +18,24 @@
 				<uni-forms-item label="联系电话" name="contract_number" label-align="left">
 					<uni-easyinput required type="number" v-model="formData.contract_number" placeholder="联系电话" />
 				</uni-forms-item>
-				<uni-forms-item label="户口所在地" name="household" label-align="left">
-					<!-- <uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户口所在地" @focus="openPicker()"/> -->
+				<uni-forms-item label="户籍所在地" name="household" label-align="left">
+					<!-- <uni-easyinput required type="text" v-model="formData.household" placeholder="请选择户籍所在地" @focus="openPicker()"/> -->
 					<view class="inputView" @click="openPicker()">{{formData.household}}</view>
 				</uni-forms-item>
 				<uni-forms-item label="家庭住址" name="officer_name" label-align="left">
 					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入家庭住址" />
 				</uni-forms-item>
 			</view>
-			<view class="formTitle">请选择预约报名日期</view>
+			<view class="formTitle">您预约的报名日期为</view>
 			<view class="formWrap">
-				<!-- <uni-forms-item label="报名日期" name="apply_date" label-align="left">
+				<view class="applyDateWrap">
+					{{formData.apply_date | dateFormat}} {{parseInt(formData.am_pm) === 1? '上午' : '下午'}}
+				</view>
+			</view>
+			<!-- <view class="formWrap">
+				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
 					<uni-easyinput required v-model="formData.apply_date" disabled="true" placeholder="报名日期" />
-				</uni-forms-item> -->
+				</uni-forms-item>
 				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
 					<picker mode="date" :value="formData.apply_date" :start="startDate" :end="endDate" @change="bindDateChange">
 						<view class="dateWrap"><text v-if="formData.apply_date">{{formData.apply_date}}</text><text style="color: grey;" v-else>请选择日期</text></view>
@@ -39,7 +44,7 @@
 				<uni-forms-item name="am_pm" label="时间段" label-align="left">
 					<uni-data-checkbox v-model="formData.am_pm" :localdata="am_pmArr"/>
 				</uni-forms-item>
-			</view>
+			</view> -->
 		</uni-forms>
 		<view class="btnWrap">
 			<button type="primary" @click="submitForm">预约</button>
@@ -94,6 +99,19 @@ var temp = {
 export default {
 	components:{
 	    "lotus-address":lotusAddress
+	},
+	filters: {
+		dateFormat(val) {
+			if (val === '') return ''
+			const date = new Date(val)
+					
+			const formatObj = {
+			  y: date.getFullYear(),
+			  m: date.getMonth() + 1,
+			  d: date.getDate()
+			}
+			return formatObj.y + '年' + formatObj.m + '月' + formatObj.d + '日'
+		}
 	},
 	data() {
 		return {
@@ -183,7 +201,7 @@ export default {
 				},
 				household: {
 					rules: [
-						{ required: true, errorMessage: '请选择户口所在地' }
+						{ required: true, errorMessage: '请选择户籍所在地' }
 					]
 				},
 				officer_name: {
@@ -524,5 +542,11 @@ input {
 	display: block;
 	width: 450rpx;
 	margin: 20rpx auto;
+}
+.applyDateWrap {
+	text-align: center;
+	padding-bottom: 15px;
+	font-size: 40rpx;
+	color: #333;
 }
 </style>

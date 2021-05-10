@@ -15,7 +15,7 @@
 						<uni-list-item title="性别" :rightText="parseInt(order.sex) === 1? '男' : '女'"></uni-list-item>
 						<uni-list-item title="身份证号码" :rightText="order.idc_no"></uni-list-item>
 						<uni-list-item title="联系电话" :rightText="order.contract_number"></uni-list-item>
-						<uni-list-item title="户口所在地" :rightText="order.province + ' ' + order.city + ' ' + order.area"></uni-list-item>
+						<uni-list-item title="户籍所在地" :rightText="order.province + ' ' + order.city + ' ' + order.area"></uni-list-item>
 						<uni-list-item title="家庭住址" :rightText="order.officer_name"></uni-list-item>
 						<uni-list-item title="预约时间" :rightText="order.apply_date + ' ' + (parseInt(order.am_pm) === 1? '上午' : '下午')"></uni-list-item>
 						<uni-list-item title="排号" :rightText="order.no"></uni-list-item>
@@ -36,6 +36,9 @@
 export default {
 	data() {
 		return {
+			am_begin: '8:00',
+			pm_begin: '14:30',
+			gap: 4,
 			loading: true,
 			orders: []
 		}
@@ -65,11 +68,11 @@ export default {
 						this.orders = res.data.data || []
 						this.orders.map((item) => {
 							if (item.am_pm === 1) {
-								var minit = (item.no - 1) * 4
-								var begintime = this.minitPlus('8:00', minit)
+								var minit = (item.no - 1) * this.gap
+								var begintime = this.minitPlus(this.am_begin, minit)
 							} else if (item.am_pm === 2) {
-								var minit = (item.no - 1) * 4
-								var begintime = this.minitPlus('13:00', minit)
+								var minit = (item.no - 1) * this.gap
+								var begintime = this.minitPlus(this.pm_begin, minit)
 							}
 							item.begintime = begintime
 						})
