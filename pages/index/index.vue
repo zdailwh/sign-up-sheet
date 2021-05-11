@@ -31,6 +31,14 @@
 				<view class="applyDateWrap">
 					{{formData.apply_date | dateFormat}} {{parseInt(formData.am_pm) === 1? '上午' : '下午'}}
 				</view>
+				<view class="canApplyNotice">
+					<template v-if="new Date().getTime() < new Date(canApplyRes.can_apply).getTime()">
+						<view>还没有到放号时间，请{{canApplyRes.can_apply}}再来</view>
+					</template>
+					<template v-else-if="canApplyRes.useful_nums === 0">
+						<view>该时段没有剩余号源，请下个时段再来吧！</view>
+					</template>
+				</view>
 			</view>
 			<!-- <view class="formWrap">
 				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
@@ -47,7 +55,7 @@
 			</view> -->
 		</uni-forms>
 		<view class="btnWrap">
-			<button type="primary" @click="submitForm">预约</button>
+			<button type="primary" :disabled="applyDisabled" @click="submitForm">预约</button>
 		</view>
 		<view class="notice">
 			查看<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator>
@@ -113,10 +121,15 @@ export default {
 			return formatObj.y + '年' + formatObj.m + '月' + formatObj.d + '日'
 		}
 	},
+	computed: {
+		applyDisabled () {
+			return (new Date().getTime() < new Date(this.canApplyRes.can_apply).getTime()) || (new Date().getTime() >= new Date(this.canApplyRes.can_apply).getTime() && this.canApplyRes.useful_nums === 0)
+		}
+	},
 	data() {
 		return {
 			agree: [],
-			applyRes: {},
+			canApplyRes: {},
 			lotusAddressData:{
 				visible:false,
 				provinceName:'',
@@ -277,6 +290,9 @@ export default {
 				this.startDate = tomorrow
 				this.endDate = tomorrow
 			}
+			
+			// 获取某日期时间段的放号情况
+			this.getIfCanApply(this.formData.apply_date, this.formData.am_pm)
 		},
 		binddata(key, val) {
 			this[key] = val
@@ -343,6 +359,36 @@ export default {
 		
 		  return `${formatObj.y}-${formatObj.m.toString().padStart(2, '0')}-${formatObj.d.toString().padStart(2, '0')}`
 		},
+		getIfCanApply(date, am_pm) {
+			uni.request({
+				url: 'https://school.jiankangzhuzhang.com/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
+				method: 'GET',
+				header: {
+					'token': uni.getStorageSync('session_key') //自定义请求头信息
+				},
+				success: (res) => {
+					if (res.data.httpCode === 200) {
+						this.canApplyRes = res.data.data
+					} else if (res.data.message === '提供的信息已经过期，请重新登录') {
+						this.login()
+					} else {
+						uni.showToast({
+							title: res.data.message,
+							icon: 'none',
+							duration: 3000
+						})
+					}
+				},
+				fail: (err) => {
+					console.log(err)
+					uni.showToast({
+						title: '请求出错，请稍后再试！',
+						icon: 'none',
+						duration: 3000
+					})
+				}
+			})
+		},
 		//登录
 		login() {
 			let _this = this
@@ -371,6 +417,7 @@ export default {
 							uni.setStorageSync('session_key', res.data.data.session_key)
 							uni.setStorageSync('user_id', res.data.data.user_id)
 							uni.hideLoading()
+							_this.getIfCanApply()
 						},
 						fail: (res) => {
 							uni.hideLoading()
@@ -545,8 +592,14 @@ input {
 }
 .applyDateWrap {
 	text-align: center;
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 	font-size: 40rpx;
 	color: #333;
+}
+.canApplyNotice {
+	text-align: center;
+	padding-bottom: 15px;
+	font-size: 28rpx;
+	color: #f00;
 }
 </style>
