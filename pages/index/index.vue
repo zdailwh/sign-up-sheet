@@ -32,8 +32,8 @@
 					{{formData.apply_date | dateFormat}} {{parseInt(formData.am_pm) === 1? '上午' : '下午'}}
 				</view>
 				<view class="canApplyNotice">
-					<template v-if="new Date().getTime() < new Date(canApplyRes.can_apply).getTime()">
-						<view>还没有到放号时间，请{{canApplyRes.can_apply}}再来</view>
+					<template v-if="new Date().getTime() < canApplyRes.can_apply * 1000">
+						<view>还没有到放号时间，请{{canApplyRes.can_apply | formatCanApply}}再来</view>
 					</template>
 					<template v-else-if="canApplyRes.useful_nums === 0">
 						<view>该时段没有剩余号源，请下个时段再来吧！</view>
@@ -112,18 +112,30 @@ export default {
 		dateFormat(val) {
 			if (val === '') return ''
 			const date = new Date(val)
-					
 			const formatObj = {
-			  y: date.getFullYear(),
-			  m: date.getMonth() + 1,
-			  d: date.getDate()
+				y: date.getFullYear(),
+				m: date.getMonth() + 1,
+				d: date.getDate()
 			}
 			return formatObj.y + '年' + formatObj.m + '月' + formatObj.d + '日'
+		},
+		formatCanApply(val) {
+			if (!val) return ''
+			const date = new Date(val * 1000)
+			const formatObj = {
+				y: date.getFullYear(),
+				m: date.getMonth() + 1,
+				d: date.getDate(),
+				h: date.getHours(),
+				i: date.getMinutes(),
+				s: date.getSeconds()
+			}
+			return formatObj.y + '-' + formatObj.m.toString().padStart(2, '0') + '-' + formatObj.d.toString().padStart(2, '0') + ' ' + formatObj.h.toString().padStart(2, '0') + ':' + formatObj.i.toString().padStart(2, '0') + ':' + formatObj.s.toString().padStart(2, '0')
 		}
 	},
 	computed: {
 		applyDisabled () {
-			return (new Date().getTime() < new Date(this.canApplyRes.can_apply).getTime()) || (new Date().getTime() >= new Date(this.canApplyRes.can_apply).getTime() && this.canApplyRes.useful_nums === 0)
+			return (new Date().getTime() < this.canApplyRes.can_apply * 1000) || (new Date().getTime() >= this.canApplyRes.can_apply * 1000 && this.canApplyRes.useful_nums === 0)
 		}
 	},
 	data() {
