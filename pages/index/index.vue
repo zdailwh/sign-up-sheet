@@ -26,7 +26,7 @@
 					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入家庭住址" />
 				</uni-forms-item>
 			</view>
-			<view class="formTitle">您预约的报名日期为</view>
+			<view class="formTitle">您预约的验证日期及时段为：</view>
 			<view class="formWrap">
 				<view class="applyDateWrap">
 					{{formData.apply_date | dateFormat}} {{parseInt(formData.am_pm) === 1? '上午' : '下午'}}
@@ -67,8 +67,8 @@
 			<view class="noticeWrap">
 				<view class="noticeTitle">预约须知</view>
 				<view class="noticeMsg">
-					<view class="noticeItem">1、身份证号码、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
-					<view class="noticeItem">2、请仔细阅读<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator></view>
+					<view class="noticeItem">1. 身份证号码、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
+					<view class="noticeItem">2. 请仔细阅读<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator></view>
 				</view>
 				<view class="agreeWrap">
 					<checkbox-group @change="binddata('agree', $event.detail.value)">
