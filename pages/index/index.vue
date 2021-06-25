@@ -287,7 +287,6 @@ export default {
 			// 设置预约时间和时段
 			var today = new Date().toLocaleDateString()
 			var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
-			console.log(this.parseTime(today) + '/' + this.parseTime(tomorrow))
 			var nowH = new Date().getHours()
 			if (nowH < 12) {
 				// 12点前约今天下午的号
@@ -339,7 +338,6 @@ export default {
 		//回传已选的省市区的值
 		choseValue(res){
 			//res数据源包括已选省市区与省市区code
-			console.log(res);
 			this.lotusAddressData.visible = res.visible //visible为显示与关闭组件标识true显示false隐藏
 			//res.isChose = 1省市区已选 res.isChose = 0;未选
 			if(res.isChose){
@@ -381,6 +379,7 @@ export default {
 				success: (res) => {
 					if (res.data.httpCode === 200) {
 						this.canApplyRes = res.data.data
+						console.log(this.canApplyRes)
 					} else if (res.data.message === '提供的信息已经过期，请重新登录') {
 						this.login()
 					} else {
