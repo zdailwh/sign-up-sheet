@@ -4,7 +4,7 @@
 			<image src="../../static/image/logo.png" mode="widthFix"></image>
 		</view>
 		<uni-forms :value="formData" ref="form" labelWidth="80">
-			<view class="formTitle">请如实填写以下信息</view>
+			<view class="formTitle">请如实填写以下信息（测试版）</view>
 			<view class="formWrap">
 				<uni-forms-item label="学生姓名" name="name" label-align="left">
 					<uni-easyinput required type="text" v-model="formData.name" placeholder="请输入学生姓名" />
