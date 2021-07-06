@@ -11,7 +11,7 @@
 			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关材料到校报到。 -->
 		</view>
 		<view class="importNotice">
-			提示：请务必提前十分钟到。号码过期作废。
+			提示：请截屏并携带相关资料提前五分钟到爱物学校门口等候。
 		</view>
 		<view class="notice">
 			查看<navigator url="/pages/order/index" open-type="switchTab" hover-class="none" class="link">我的预约 </navigator>
@@ -25,7 +25,7 @@
 			return {
 				am_begin: '8:00',
 				pm_begin: '14:30',
-				gap: 4,
+				gap: 3,
 				order: {}
 			}
 		},

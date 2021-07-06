@@ -38,7 +38,7 @@ export default {
 		return {
 			am_begin: '8:00',
 			pm_begin: '14:30',
-			gap: 4,
+			gap: 3,
 			loading: true,
 			orders: []
 		}

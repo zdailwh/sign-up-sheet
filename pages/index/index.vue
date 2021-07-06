@@ -4,7 +4,7 @@
 			<image src="../../static/image/logo.png" mode="widthFix"></image>
 		</view>
 		<uni-forms :value="formData" ref="form" labelWidth="80">
-			<view class="formTitle">请如实填写以下信息（测试版）</view>
+			<view class="formTitle">请如实填写以下信息</view>
 			<view class="formWrap">
 				<uni-forms-item label="学生姓名" name="name" label-align="left">
 					<uni-easyinput required type="text" v-model="formData.name" placeholder="请输入学生姓名" />
@@ -28,6 +28,24 @@
 			</view>
 			<view class="formTitle">您预约的验证日期及时段为：</view>
 			<view class="formWrap">
+				<template v-if="afterNums.id">
+					<view class="applyDateWrap">
+						{{afterNums.day_num}} {{parseInt(afterNums.am_pm) === 1? '上午' : '下午'}}
+					</view>
+					<view v-if="new Date().getTime() < afterNums.can_apply * 1000" class="canApplyNotice">
+						<view>还没有到放号时间，请{{afterNums.can_apply | formatCanApply}}再来</view>
+					</view>
+					<view v-else-if="afterNums.useful_nums === 0" class="canApplyNotice">
+						<view>该时段没有剩余号源，请下个时段再来吧！</view>
+					</view>
+				</template>
+				<view v-else class="canApplyNotice">
+					<view>当前号源已用完。</view>
+					<view>如有问题请您及时与我校联系。</view>
+					<view>联系电话：0356-2213590</view>
+				</view>
+			</view>
+			<!-- <view class="formWrap">
 				<view class="applyDateWrap">
 					{{formData.apply_date | dateFormat}} {{parseInt(formData.am_pm) === 1? '上午' : '下午'}}
 				</view>
@@ -39,7 +57,7 @@
 						<view>该时段没有剩余号源，请下个时段再来吧！</view>
 					</template>
 				</view>
-			</view>
+			</view> -->
 			<!-- <view class="formWrap">
 				<uni-forms-item label="报名日期" name="apply_date" label-align="left">
 					<uni-easyinput required v-model="formData.apply_date" disabled="true" placeholder="报名日期" />
@@ -95,7 +113,7 @@ var temp = {
 	contract_number: "18601949678",
 	created_at: null,
 	id: 5,
-	idc_no: "140430199004083223",
+	idc_no: "140430201404083223",
 	name: "赵丹",
 	no: 3,
 	officer_name: "东西派出所",
@@ -135,13 +153,14 @@ export default {
 	},
 	computed: {
 		applyDisabled () {
-			return (new Date().getTime() < this.canApplyRes.can_apply * 1000) || (new Date().getTime() >= this.canApplyRes.can_apply * 1000 && this.canApplyRes.useful_nums === 0)
+			return (new Date().getTime() < this.afterNums.can_apply * 1000) || (new Date().getTime() >= this.afterNums.can_apply * 1000 && this.afterNums.useful_nums === 0) || !this.afterNums.id
 		}
 	},
 	data() {
 		return {
 			agree: [],
 			canApplyRes: {},
+			afterNums: {},
 			lotusAddressData:{
 				visible:false,
 				provinceName:'',
@@ -200,8 +219,11 @@ export default {
 								}
 								var birthday = getBirthdayFromIdCard(value)
 								var y = birthday.substr(0,4)
-								if (y < 2013 || y > 2014) {
-									callback('您的出生日期不在2013到2014年')
+								var m = birthday.substr(4,2)
+								var d = birthday.substr(6,2)
+								var birTime = new Date(y + '/' + m + '/' + d).getTime()
+								if (birTime < new Date('2014/09/01').getTime() || birTime > new Date('2015/08/31').getTime()) {
+									callback('出生日期不在2014-09-01至2015-08-31内')
 								}
 								return true
 							}
@@ -258,9 +280,13 @@ export default {
 		this.$refs.form.setRules(this.rules)
 	},
 	onShow() {
+		this.afterNums = {}
 		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
 			console.log('去登录')
 			this.login()
+		} else {
+			// 获得指定日期当天或者之后的第一条可用预约记录
+			this.getAfterNums()
 		}
 	},
 	methods: {
@@ -285,25 +311,25 @@ export default {
 			this.lotusAddressData.townName = '城区'
 			
 			// 设置预约时间和时段
-			var today = new Date().toLocaleDateString()
-			var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
-			var nowH = new Date().getHours()
-			if (nowH < 12) {
-				// 12点前约今天下午的号
-				this.formData.am_pm = 2
-				this.formData.apply_date = this.parseTime(today)
-				this.startDate = today
-				this.endDate = today
-			} else {
-				// 12点后约明天上午的号
-				this.formData.am_pm = 1
-				this.formData.apply_date = this.parseTime(tomorrow)
-				this.startDate = tomorrow
-				this.endDate = tomorrow
-			}
+			// var today = new Date().toLocaleDateString()
+			// var tomorrow = new Date(new Date(today).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString()
+			// var nowH = new Date().getHours()
+			// if (nowH < 12) {
+			// 	// 12点前约今天下午的号
+			// 	this.formData.am_pm = 2
+			// 	this.formData.apply_date = this.parseTime(today)
+			// 	this.startDate = today
+			// 	this.endDate = today
+			// } else {
+			// 	// 12点后约明天上午的号
+			// 	this.formData.am_pm = 1
+			// 	this.formData.apply_date = this.parseTime(tomorrow)
+			// 	this.startDate = tomorrow
+			// 	this.endDate = tomorrow
+			// }
 			
-			// 获取某日期时间段的放号情况
-			this.getIfCanApply(this.formData.apply_date, this.formData.am_pm)
+			// // 获取某日期时间段的放号情况
+			// this.getIfCanApply(this.formData.apply_date, this.formData.am_pm)
 		},
 		binddata(key, val) {
 			this[key] = val
@@ -400,6 +426,39 @@ export default {
 				}
 			})
 		},
+		getAfterNums() {
+			var today = new Date().toLocaleDateString()
+			uni.request({
+				url: 'https://school.jiankangzhuzhang.com/apply/after_nums?date=' + today, 
+				method: 'GET',
+				header: {
+					'token': uni.getStorageSync('session_key') //自定义请求头信息
+				},
+				success: (res) => {
+					if (res.data.httpCode === 200) {
+						this.afterNums = res.data.data
+						this.formData.am_pm = this.afterNums.am_pm
+						this.formData.apply_date = this.afterNums.day_num
+					} else if (res.data.message === '提供的信息已经过期，请重新登录') {
+						this.login()
+					} else {
+						// uni.showToast({
+						// 	title: res.data.message,
+						// 	icon: 'none',
+						// 	duration: 3000
+						// })
+					}
+				},
+				fail: (err) => {
+					console.log(err)
+					uni.showToast({
+						title: '请求出错，请稍后再试！',
+						icon: 'none',
+						duration: 3000
+					})
+				}
+			})
+		},
 		//登录
 		login() {
 			let _this = this
@@ -428,7 +487,7 @@ export default {
 							uni.setStorageSync('session_key', res.data.data.session_key)
 							uni.setStorageSync('user_id', res.data.data.user_id)
 							uni.hideLoading()
-							_this.getIfCanApply()
+							_this.getAfterNums()
 						},
 						fail: (res) => {
 							uni.hideLoading()
