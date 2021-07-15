@@ -30,6 +30,7 @@
 			}
 		},
 	    onLoad: function (option) {
+			uni.showShareMenu()
 			this.order = JSON.parse(option.order) || {}
 			if (this.order.id) {
 				this.calcBegintime()

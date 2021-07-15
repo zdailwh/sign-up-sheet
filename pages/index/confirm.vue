@@ -44,6 +44,7 @@
 			}
 		},
 		onLoad: function (option) {
+			uni.showShareMenu()
 			this.formData = JSON.parse(option.formData) || {}
 		},
 		methods: {

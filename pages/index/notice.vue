@@ -52,6 +52,11 @@
 </template>
 
 <script>
+export default {
+	onLoad() {
+		uni.showShareMenu()
+	}
+}
 </script>
 
 <style>

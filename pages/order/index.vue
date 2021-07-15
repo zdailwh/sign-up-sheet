@@ -43,6 +43,9 @@ export default {
 			orders: []
 		}
 	},
+	onLoad() {
+		uni.showShareMenu()
+	},
 	onShow() {
 		if (!uni.getStorageSync('session_key') || !uni.getStorageSync('user_id')) {
 			console.log('去登录')

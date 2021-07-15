@@ -39,7 +39,7 @@
 						<view>该时段没有剩余号源，请下个时段再来吧！</view>
 					</view>
 				</template>
-				<view v-else class="canApplyNotice">
+				<view v-else class="canApplyNotice" style="text-align: left;">
 					<view>如多次预约仍未成功，请于8月13日下午17:30携带有关材料直接到校验证。</view>
 				</view>
 			</view>
@@ -270,6 +270,7 @@ export default {
 		}
 	},
 	onLoad() {
+		uni.showShareMenu()
 		this.formInit()
 	},
 	onReady() {
