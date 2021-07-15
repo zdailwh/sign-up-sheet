@@ -23,8 +23,8 @@
 	export default {
 		data() {
 			return {
-				am_begin: '8:00',
-				pm_begin: '14:30',
+				am_begin: '8:30',
+				pm_begin: '15:00',
 				gap: 3,
 				order: {}
 			}

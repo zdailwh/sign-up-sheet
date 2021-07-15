@@ -8,43 +8,46 @@
 		</view>
 		<view class="title">一、服务范围</view>
 		<view class="cont">
-			景西路以西<br>凤台西街以北<br>西环路以东<br>新市西街以南
+			西环路以东<br>景西路以西<br>新市西街以南<br>凤台西街以北
 		</view>
 		<view class="title">二、年龄要求</view>
 		<view class="cont">
-			2015年8月31日前出生，年满6周岁（不接收已在其他学校就读并注册学籍的适龄儿童）。
+			2015年8月31日前（含8月31日）出生，年满6周岁的适龄儿童（不接受已在其他学校就读并已注册学籍的）。
 		</view>
 		<view class="title">三、验证时间</view>
 		<view class="cont">
-			8月12日—13日<br>上午8:30—11:30<br>下午3:00—6:00
+			8月12日—13日<br>上午8:30—12:00<br>下午3:00—6:30<br>如规定时间完不成验证的，工作时间将延长至8月14日上午。
 		</view>
 		<view class="title">四、验证地点</view>
 		<view class="cont">
-			晋城爱物学校中学部一楼阶梯教室。
+			中学部一楼阶梯教室。
 		</view>
 		<view class="title">五、所需证件及材料</view>
-		<view class="cont">验证时家长须携带<text style="color: #f00;">“线下验证码”及以下证件的原件和复印件：</text></view>
-		<view class="cont">1.现常住地户口簿（适龄儿童户籍应与父母一致，且需是2021年6月30日前理入的）；</view>
+		<view class="cont">验证时家长须携带<text class="strong">“线下验证码”及以下证件的原件和复印件：</text></view>
+		<view class="cont">1.现常住地户口簿（适龄儿童户籍应与父母一致，且须是2021年6月30日前理入的）；</view>
 		<view class="cont">2.与常住地户口簿地址一致的房产证明（房产证/购房合同/购房收据等）；</view>
 		<view class="cont">3.预防接种证和预防接种情况审核报告单。</view>
-		<view class="cont">验证后符合入学条件的，由学校根据学位情况进行录取。</view>
-		<view class="title">六、日程安排</view>
+		<view class="cont">验证后符合入学条件的，由学校进行录取。</view>
+		<!-- <view class="title">六、日程安排</view>
 		<view class="cont">1.8月12日上午审验1—70序号的相关证件；</view>
 		<view class="cont">2.8月12日下午审验71—150序号的相关证件；</view>
 		<view class="cont">3.8月13日上午审验151—225序号的相关证件；</view>
-		<view class="cont">4.8月13日下午审验226以后序号的相关证件。</view>
-		<view class="title">七、验证程序</view>
-		<view class="cont">1.按号入校；2.证件查验；3.注册登记；4.网上信息确认。</view>
-		<view class="title">八、温馨提示</view>
-		<view class="cont">1.请适龄儿童父母其中一方亲自持相关材料按顺序验证，非第一监护人请勿代劳。</view>
-		<view class="cont">2.户口簿复印件应将户口薄主页（有地址、派出所公章）、户主页、适龄儿童页复印在一页A4纸上，所有原件学校留存后将到发证和出具机关（单位）及相关官网复核，开学后发还。</view>
-		<view class="cont">3.8月28日上午9点，按照市教育局统一安排，在有关部门及家长代表的监督下进行阳光编班。</view>
-		<view class="cont">4.烈士和现役军人子女、市（区）政府引进的高级人才子女等按照有关政策执行。</view>
-		<view class="cont">5.根据疫情防控工作需要，入校家长请佩戴口罩，保持安全间距，遵守秩序，举止文明、禁止吸烟。</view>
-		<view class="cont">6.户籍证明以2021年6月30日理入为准，不接受挂靠户口。凡提供虚假住房及户籍证明骗取入学资格的，除取消入学资格外，报有关部门录入公民个人征信系统。</view>
-		<view class="cont" style="margin-top: 20rpx;">监督电话：0356-2213568</view>
-		<view class="cont right" style="margin-top: 50rpx;">晋城爱物学校</view>
-		<view class="cont right">2021年7月3日</view>
+		<view class="cont">4.8月13日下午审验226以后序号的相关证件。</view> -->
+		<view class="title">六、验证程序</view>
+		<view class="cont">1.凭在我校“线上预约小程序”上预约的时间段和顺序号入校；</view>
+		<view class="cont">2.证件查验；</view>
+		<view class="cont">3.注册登记；</view>
+		<view class="cont">4.网上信息确认。</view>
+		<view class="title">七、温馨提示</view>
+		<view class="cont">1.<text class="strong">入校验证实行扫码预约，凡符合我校入学条件的都会接收，无需排队。每位儿童名字及对应的身份证号只能预约一次。</text></view>
+		<view class="cont">2.<text class="strong">第一监护人</text>（不接受非第一监护人代劳）凭扫码预约成功的截图及提示的序号和时间入校。</view>
+		<view class="cont">3.户口簿复印件应将户口薄主页（有地址、派出所公章）、户主页、适龄儿童页复印<text class="strong">在一页A4纸上</text>，所有原件学校留存后将到发证和出具机关（单位）及相关官网复核，开学后发还。</view>
+		<view class="cont">4.8月28日上午9点，按照市教育局统一安排，在有关部门及家长代表的监督下进行阳光编班。</view>
+		<view class="cont">5.烈士和现役军人子女、市（区）政府引进的高级人才子女等按照有关政策执行。</view>
+		<view class="cont">6.根据疫情防控工作需要，入校家长须出示健康码，佩戴口罩，保持安全间距，遵守秩序，禁止吸烟。</view>
+		<view class="cont"><text class="strong">户籍证明以2021年6月30日理入为准，不接受挂靠户口。凡提供虚假住房及户籍证明骗取入学资格的，除取消入学资格外，报有关部门录入公民个人征信系统。</text></view>
+		<view class="cont" style="margin-top: 20rpx;"><text class="strong">监督电话：0356-2213568</text></view>
+		<view class="cont right" style="margin-top: 50rpx;">二〇二一年八月十日</view>
 	</view>
 </template>
 
@@ -75,5 +78,9 @@
 }
 .right {
 	text-align: right;
+}
+.strong {
+	font-weight: bold;
+	color: #222;
 }
 </style>

@@ -40,9 +40,7 @@
 					</view>
 				</template>
 				<view v-else class="canApplyNotice">
-					<view>当前号源已用完。</view>
-					<view>如有问题请您及时与我校联系。</view>
-					<view>联系电话：0356-2213590</view>
+					<view>如多次预约仍未成功，请于8月13日下午17:30携带有关材料直接到校验证。</view>
 				</view>
 			</view>
 			<!-- <view class="formWrap">
