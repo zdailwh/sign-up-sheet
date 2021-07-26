@@ -30,7 +30,8 @@
 			</view>
 		</uni-forms>
 		<view class="btnWrap">
-			<button type="primary" @click="submitForm">确认提交</button>
+			<button class="btn1" type="primary" @click="submitForm">确认提交</button>
+			<navigator url="/pages/index/index" open-type="switchTab" hover-class="none"><button class="btn2" type="primary" plain="true">上一步 </button></navigator>			
 		</view>
 	</view>
 </template>
@@ -165,20 +166,42 @@
 	.btnWrap {
 		padding: 15px;
 	}
-	.btnWrap button, .buttonWrap button {
+	.btnWrap button.btn1 {
 		background-color: #206fb1;
 	}
-	.btnWrap button[disabled], .buttonWrap button[disabled] {
+	.btnWrap button.btn1[disabled] {
 		background-color: #206fb1;
 	}
-	.btnWrap button:hover, .buttonWrap button:hover {
+	.btnWrap button.btn1:hover {
 		background-color: #206fb1;
 	}
-	.btnWrap button:focus, .buttonWrap button:focus {
+	.btnWrap button.btn1:focus {
 		background-color: #206fb1;
 	}
-	.btnWrap button:active, .buttonWrap button:active {
+	.btnWrap button.btn1:active {
 		background-color: #206fb1;
+	}
+	.btnWrap button.btn2 {
+		margin-top: 15px;
+		color: #206fb1;
+		border: 1px solid #206fb1;
+		background-color: transparent;
+	}
+	.btnWrap button.btn2[disabled] {
+		background-color: transparent;
+	}
+	.btnWrap button.btn2:hover {
+		background-color: transparent;
+	}
+	.btnWrap button.btn2:focus {
+		color: #206fb1;
+		border: 1px solid #206fb1;
+		background-color: transparent;
+	}
+	.btnWrap button.btn2:active {
+		color: #206fb1;
+		border: 1px solid #206fb1;
+		background-color: transparent;
 	}
 	.inputView {
 		flex: 1;

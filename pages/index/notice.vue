@@ -8,7 +8,7 @@
 		</view>
 		<view class="title indent">一、服务范围</view>
 		<view class="cont indent">
-			西环路以东；景西路以西；新市西街以南；凤台西街以北
+			西环路以东；景西路以西；新市西街以南；凤台西街以北。
 		</view>
 		<view class="title indent">二、年龄要求</view>
 		<view class="cont indent">
