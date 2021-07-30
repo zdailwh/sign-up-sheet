@@ -7,8 +7,8 @@
 			预约成功
 		</view>
 		<view class="contWrap">
-			恭喜您预约成功！你的排队号码是<text class="bold">{{order.no}}</text>号，<br>请于<text class="bold">{{order.apply_date}} {{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{order.begintime}}</text><br>携相关材料到校报到。
-			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关材料到校报到。 -->
+			恭喜您预约成功！你的排队号码是<text class="bold">{{order.no}}</text>号，<br>请于<text class="bold">{{order.apply_date}} {{parseInt(order.am_pm) === 1? '上午' : '下午'}} {{order.begintime}}</text><br>携相关证件到校查验。
+			<!-- 恭喜您预约成功！<br>你的排队号码是<text class="bold">7</text>号，<br>请于<text class="bold">2021-08-08 上午 8:30</text><br>携相关证件到校查验。 -->
 		</view>
 		<view class="importNotice">
 			提示：请截屏并携带相关资料提前五分钟到爱物学校门口等候。

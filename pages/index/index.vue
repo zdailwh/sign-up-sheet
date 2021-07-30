@@ -23,7 +23,7 @@
 					<view class="inputView" @click="openPicker()">{{formData.household}}</view>
 				</uni-forms-item>
 				<uni-forms-item label="家庭住址" name="officer_name" label-align="left">
-					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="请输入家庭住址" />
+					<uni-easyinput required type="text" v-model="formData.officer_name" placeholder="地址填写必须和户口本上完全一致" />
 				</uni-forms-item>
 			</view>
 			<view class="formTitle">您预约的验证日期及时段为：</view>
