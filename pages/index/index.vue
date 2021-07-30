@@ -40,7 +40,7 @@
 					</view>
 				</template>
 				<view v-else class="canApplyNotice" style="text-align: left;">
-					<view>如多次预约仍未成功，请于8月13日下午17:30携带有关材料直接到校验证。</view>
+					<view>如多次预约仍未成功，请于8月13日下午17:30携带相关证件直接到校查验。</view>
 				</view>
 			</view>
 			<!-- <view class="formWrap">
