@@ -16,7 +16,10 @@
 		</view>
 		<view class="title indent">三、验证时间</view>
 		<view class="cont indent">
-			8月12日—13日   上午8:30—12:00  下午3:00—6:30<br>如规定时间完不成验证的，将视情况延长验证时间至8月14日上午12:00。
+			8月12日-13日 上午8:30-12:00 下午3:00-6:30
+		</view>
+		<view class="cont indent">
+			如规定时间完不成验证的，将视情况延长验证时间至8月14日上午12:00。
 		</view>
 		<view class="title indent">四、验证地点</view>
 		<view class="cont indent">
