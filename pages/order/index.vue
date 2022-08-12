@@ -58,7 +58,7 @@ export default {
 		getOrders() {
 			uni.showLoading()
 			uni.request({
-			    url: 'https://school.jiankangzhuzhang.com/apply/list?user_id=' + uni.getStorageSync('user_id'), 
+			    url: 'https://awxx.jc114.com/apply/list?user_id=' + uni.getStorageSync('user_id'), 
 				method: 'GET',
 			    header: {
 			        'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -133,7 +133,7 @@ export default {
 					let code = loginRes.code
 					//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 					uni.request({
-						url: 'https://school.jiankangzhuzhang.com/user/login',
+						url: 'https://awxx.jc114.com/user/login',
 						data: {
 							code: code,
 						},

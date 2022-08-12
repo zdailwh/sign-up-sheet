@@ -40,7 +40,7 @@
 					</view>
 				</template>
 				<view v-else class="canApplyNotice" style="text-align: left;">
-					<view>如多次预约仍未成功，请于8月14日上午8:30携带相关材料直接到校验证。</view>
+					<view>如多次预约仍未成功，请于8月18日或19日上午8:30携带相关材料直接到校验证。</view>
 				</view>
 			</view>
 			<!-- <view class="formWrap">
@@ -396,7 +396,7 @@ export default {
 		},
 		getIfCanApply(date, am_pm) {
 			uni.request({
-				url: 'https://school.jiankangzhuzhang.com/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
+				url: 'https://awxx.jc114.com/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -428,7 +428,7 @@ export default {
 		getAfterNums() {
 			var today = new Date().toLocaleDateString()
 			uni.request({
-				url: 'https://school.jiankangzhuzhang.com/apply/after_nums?date=' + today, 
+				url: 'https://awxx.jc114.com/apply/after_nums?date=' + today, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -471,7 +471,7 @@ export default {
 					let code = loginRes.code
 					//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 					uni.request({
-						url: 'https://school.jiankangzhuzhang.com/user/login',
+						url: 'https://awxx.jc114.com/user/login',
 						data: {
 							code: code,
 						},
