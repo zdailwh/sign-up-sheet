@@ -40,7 +40,7 @@
 					</view>
 				</template>
 				<view v-else class="canApplyNotice" style="text-align: left;">
-					<view>如多次预约仍未成功，请于8月18日或19日上午8:30携带相关材料直接到校验证。</view>
+					<view>如多次预约仍未成功，请于8月20日上午8:30携带相关材料直接到校验证。</view>
 				</view>
 			</view>
 			<!-- <view class="formWrap">
@@ -220,8 +220,8 @@ export default {
 								var m = birthday.substr(4,2)
 								var d = birthday.substr(6,2)
 								var birTime = new Date(y + '/' + m + '/' + d).getTime()
-								if (birTime < new Date('2014/09/01').getTime() || birTime > new Date('2015/08/31').getTime()) {
-									callback('出生日期不在2014-09-01至2015-08-31内')
+								if (birTime < new Date('2015/09/01').getTime() || birTime > new Date('2016/08/31').getTime()) {
+									callback('出生日期不在2015-09-01至2016-08-31内')
 								}
 								return true
 							}
