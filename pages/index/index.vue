@@ -220,8 +220,8 @@ export default {
 								var m = birthday.substr(4,2)
 								var d = birthday.substr(6,2)
 								var birTime = new Date(y + '/' + m + '/' + d).getTime()
-								if (birTime < new Date('2015/09/01').getTime() || birTime > new Date('2016/08/31').getTime()) {
-									callback('出生日期不在2015-09-01至2016-08-31内')
+								if (birTime < new Date('2016/09/01').getTime() || birTime > new Date('2017/08/31').getTime()) {
+									callback('出生日期不在2016-09-01至2017-08-31内')
 								}
 								return true
 							}
@@ -396,7 +396,7 @@ export default {
 		},
 		getIfCanApply(date, am_pm) {
 			uni.request({
-				url: 'https://awxx.jc114.com/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
+				url: 'https://school.jcawxx.cn/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -428,7 +428,7 @@ export default {
 		getAfterNums() {
 			var today = new Date().toLocaleDateString()
 			uni.request({
-				url: 'https://awxx.jc114.com/apply/after_nums?date=' + today, 
+				url: 'https://school.jcawxx.cn/apply/after_nums?date=' + today, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -471,7 +471,7 @@ export default {
 					let code = loginRes.code
 					//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 					uni.request({
-						url: 'https://awxx.jc114.com/user/login',
+						url: 'https://school.jcawxx.cn/user/login',
 						data: {
 							code: code,
 						},

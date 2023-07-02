@@ -58,7 +58,7 @@
 						title: '正在提交'
 					})
 					uni.request({
-						url: 'https://awxx.jc114.com/user/apply', 
+						url: 'https://school.jcawxx.cn/user/apply', 
 						method: 'POST',
 						data: this.formData,
 						header: {
@@ -112,7 +112,7 @@
 						let code = loginRes.code
 						//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 						uni.request({
-							url: 'https://awxx.jc114.com/user/login',
+							url: 'https://school.jcawxx.cn/user/login',
 							data: {
 								code: code,
 							},

@@ -1,10 +1,10 @@
 <template>
 	<view class="noticeWrap">
 		<view class="headTitle">
-			晋城爱物学校<br>	2022年一年级新生招生公告
+			晋城爱物学校<br>	2023年一年级新生招生公告
 		</view>
 		<view class="cont indent">
-			根据市政府办、市区规范中小学招生工作领导组及市、区教育局有关公告、文件、会议精神，结合我校实际，现将2022年小学一年级新生招生工作事宜公告如下：
+			根据市政府办、市区规范中小学招生工作领导组及市、区教育局有关公告、文件、会议精神，结合我校实际，现将2023年小学一年级新生招生工作事宜公告如下：
 		</view>
 		<view class="title indent">一、服务范围</view>
 		<view class="cont indent">
@@ -12,7 +12,7 @@
 		</view>
 		<view class="title indent">二、年龄要求</view>
 		<view class="cont indent">
-			2016年8月31日前（含8月31日）出生，年满6周岁的适龄儿童（不接受已在其他学校就读并已注册学籍的学生）。
+			2017年8月31日前（含8月31日）出生，年满6周岁的适龄儿童（不接受已在其他学校就读并已注册学籍的学生）。
 		</view>
 		<view class="title indent">三、验证时间</view>
 		<view class="cont indent">
@@ -27,8 +27,8 @@
 		</view>
 		<view class="title indent">五、所需证件及材料</view>
 		<view class="cont indent">验证时家长须携带<text class="strong">“线下验证码”及以下证件的原件和复印件：</text></view>
-		<view class="cont indent">1.现常住地户口簿（适龄儿童户籍应与父母一致，且须是2022年6月30日前理入的）；</view>
-		<view class="cont indent">2.和常住地户口簿地址一致的房产证明（房产证/正式购房合同/购房收据等）；</view>
+		<view class="cont indent">1.现常住地户口簿（适龄儿童户籍应与父母一致，且须是2023年6月30日前理入的）；</view>
+		<view class="cont indent">2.和常住地户口簿地址一致的房产证明（房产证/不动产证/正式购房合同/购房发票等）；</view>
 		<view class="cont indent">3.预防接种情况审核报告单。</view>
 		<view class="cont indent">验证后符合入学条件的，由学校进行录取。</view>
 		<!-- <view class="title">六、日程安排</view>
@@ -46,11 +46,10 @@
 		<view class="cont indent">2.请适龄儿童父母其中一方亲自持相关材料验证，非第一监护人请勿代劳；</view>
 		<view class="cont indent">3.户口簿复印件应将户口薄主页（有地址、派出所公章页）、户主页、适龄儿童页复印<text class="strong">在一页A4纸上</text>，所有原件学校留存后将视情况到发证和出具机关（单位）及相关官网复核，开学后发还；</view>
 		<view class="cont indent">4.8月28日上午9:00，按照市教育局统一安排，在有关部门及家长代表的监督下进行<text class="strong">阳光编班</text>；</view>
-		<view class="cont indent">5.革命烈士和现役军人子女、市（区）政府引进的高级人才子女等按照有关政策执行；</view>
-		<view class="cont indent">6.根据疫情防控工作要求，入校家长须出示5日内核酸检测阴性证明、行程码，佩戴口罩，保持安全间距，文明有序验证。</view>
-		<view class="cont indent"><text class="strong">户籍证明以2022年6月30日前理入为准，不接受挂靠及集体户口。凡提供虚假住房及户籍证明骗取入学资格的，除取消入学资格外，报有关部门录入公民个人征信系统。</text></view>
+		<view class="cont indent">5.烈士和现役军人子女、市（区）政府引进的高级人才子女等按照有关政策执行；</view>
+		<view class="cont indent"><text class="strong">户籍证明以2023年6月30日前理入为准，不接受挂靠户口。凡提供虚假住房及户籍证明骗取入学资格的，除取消入学资格外，报有关部门录入公民个人征信系统。</text></view>
 		<view class="cont indent" style="margin-top: 20rpx;"><text class="strong">监督电话：0356-2213568</text></view>
-		<view class="cont right" style="margin-top: 50rpx;">二〇二二年八月十七日</view>
+		<view class="cont right" style="margin-top: 50rpx;">二〇二三年八月</view>
 	</view>
 </template>
 
