@@ -58,7 +58,7 @@
 						title: '正在提交'
 					})
 					uni.request({
-						url: 'https://school.jcawxx.cn/user/apply', 
+						url: 'https://houtai.jcawxx.cn/user/apply', 
 						method: 'POST',
 						data: this.formData,
 						header: {
@@ -112,7 +112,7 @@
 						let code = loginRes.code
 						//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 						uni.request({
-							url: 'https://school.jcawxx.cn/user/login',
+							url: 'https://houtai.jcawxx.cn/user/login',
 							data: {
 								code: code,
 							},
@@ -143,7 +143,7 @@
 
 <style>
 	page {
-		background-color: #9fd7e6;
+		background-color: #fff;
 	}
 	.uni-forms-item__label .label-text {
 		font-size: 30rpx !important;
@@ -161,7 +161,7 @@
 	.formWrap {
 		padding: 15px 15px 0 15px;
 		/* background-color: rgba(159,215,230,.5); */
-		background-color: rgba(255,255,255,.7);
+		background-color: rgba(0,122,255,.1);
 	}
 	.btnWrap {
 		padding: 15px;

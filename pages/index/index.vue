@@ -1,7 +1,10 @@
 <template>	
 	<view>
 		<view class="logoWrap">
-			<image src="../../static/image/logo.png" mode="widthFix"></image>
+			<image src="../../static/image/logo.jpg" mode="widthFix"></image>
+			<view class="logohead">
+				晋城市中原街小学
+			</view>
 		</view>
 		<uni-forms :value="formData" ref="form" labelWidth="80">
 			<view class="formTitle">请如实填写以下信息</view>
@@ -71,7 +74,7 @@
 			</view> -->
 		</uni-forms>
 		<view class="btnWrap">
-			<button type="primary" :disabled="applyDisabled" @click="submitForm">预约</button>
+			<button type="primary" :disabled="applyDisabled || (chengquOnly && formData.area !== '城区')" @click="submitForm">预约</button>
 		</view>
 		<view class="notice">
 			查看<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator>
@@ -83,7 +86,7 @@
 			<view class="noticeWrap">
 				<view class="noticeTitle">预约须知</view>
 				<view class="noticeMsg">
-					<view class="noticeItem">1. 身份证号码、手机号等个人敏感信息仅用于晋城爱物学校学生排号，并保证绝不会泄露您的信息。</view>
+					<view class="noticeItem">1. 身份证号码、手机号等个人敏感信息仅用于晋城市中原街小学学生排号，并保证绝不会泄露您的信息。</view>
 					<view class="noticeItem">2. 请仔细阅读<navigator url="/pages/index/notice" hover-class="none" class="link">《招生简章》</navigator></view>
 				</view>
 				<view class="agreeWrap">
@@ -152,6 +155,12 @@ export default {
 	computed: {
 		applyDisabled () {
 			return (new Date().getTime() < this.afterNums.can_apply * 1000) || (new Date().getTime() >= this.afterNums.can_apply * 1000 && this.afterNums.useful_nums === 0) || !this.afterNums.id
+		},
+		chengquOnly () {
+			// 8月18、19日 只能城区预约
+			const m = new Date(this.afterNums.day_num).getMonth() + 1
+			const d = new Date(this.afterNums.day_num).getDate()
+			return m === 8 && (d === 18 || d === 19)
 		}
 	},
 	data() {
@@ -220,8 +229,10 @@ export default {
 								var m = birthday.substr(4,2)
 								var d = birthday.substr(6,2)
 								var birTime = new Date(y + '/' + m + '/' + d).getTime()
-								if (birTime < new Date('2016/09/01').getTime() || birTime > new Date('2017/08/31').getTime()) {
-									callback('出生日期不在2016-09-01至2017-08-31内')
+								const ableStartY = new Date().getFullYear() - 7
+								const ableEndY = new Date().getFullYear() - 6
+								if (birTime < new Date(ableStartY + '/09/01').getTime() || birTime > new Date(ableEndY + '/08/31').getTime()) {
+									callback('出生日期不在'+ ableStartY +'-09-01至'+ ableEndY +'-08-31内')
 								}
 								return true
 							}
@@ -373,6 +384,14 @@ export default {
 				this.formData.province = res.province //省
 				this.formData.city = res.city //市
 				this.formData.area = res.town //区
+				
+				if(this.chengquOnly && this.formData.area !== '城区') {
+					uni.showToast({
+						title: '您不是晋城城区户籍，请于21日再预约',
+						icon: 'none',
+						duration: 5000
+					})
+				}
 			}
 		},
 		bindDateChange: function(e) {
@@ -396,7 +415,7 @@ export default {
 		},
 		getIfCanApply(date, am_pm) {
 			uni.request({
-				url: 'https://school.jcawxx.cn/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
+				url: 'https://houtai.jcawxx.cn/admin/apply_detail?date=' + date + '&am_pm=' + am_pm, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -428,7 +447,7 @@ export default {
 		getAfterNums() {
 			var today = new Date().toLocaleDateString()
 			uni.request({
-				url: 'https://school.jcawxx.cn/apply/after_nums?date=' + today, 
+				url: 'https://houtai.jcawxx.cn/apply/after_nums?date=' + today, 
 				method: 'GET',
 				header: {
 					'token': uni.getStorageSync('session_key') //自定义请求头信息
@@ -471,7 +490,7 @@ export default {
 					let code = loginRes.code
 					//将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 					uni.request({
-						url: 'https://school.jcawxx.cn/user/login',
+						url: 'https://houtai.jcawxx.cn/user/login',
 						data: {
 							code: code,
 						},
@@ -513,7 +532,7 @@ function getBirthdayFromIdCard(idCard) {
 
 <style>
 page {
-	background-color: #9fd7e6;
+	background-color: #fff;
 }
 .uni-forms-item__label .label-text {
 	font-size: 30rpx !important;
@@ -537,7 +556,7 @@ input {
 .formWrap {
 	padding: 15px 15px 0 15px;
 	/* background-color: rgba(159,215,230,.5); */
-	background-color: rgba(255,255,255,.7);
+	background-color: rgba(0,122,255,.1);
 }
 .btnWrap {
 	padding: 15px;
@@ -652,12 +671,18 @@ input {
 	color: #007AFF;
 }
 .logoWrap {
-	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20rpx;
 }
 .logoWrap image {
 	display: block;
-	width: 450rpx;
-	margin: 20rpx auto;
+	width: 150rpx;
+	margin-right: 20rpx;
+}
+.logoWrap .logohead {
+	font-size: 34rpx;
 }
 .applyDateWrap {
 	text-align: center;

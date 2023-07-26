@@ -67,7 +67,7 @@ export default {
 					}
 					//2.将用户登录code传递到后台置换用户SessionKey、OpenId等信息
 					// uni.request({
-					// 	url: 'https://school.jcawxx.cn/user/login',
+					// 	url: 'https://houtai.jcawxx.cn/user/login',
 					// 	data: {
 					// 		code: code,
 					// 	},

@@ -1,55 +1,50 @@
 <template>
 	<view class="noticeWrap">
 		<view class="headTitle">
-			晋城爱物学校<br>	2023年一年级新生招生公告
+			晋城市中原街小学<br>2023年招生简章
 		</view>
 		<view class="cont indent">
-			根据市政府办、市区规范中小学招生工作领导组及市、区教育局有关公告、文件、会议精神，结合我校实际，现将2023年小学一年级新生招生工作事宜公告如下：
+			根据晋城市教育局《2023年市区义务教育阶段学校招生实施方案》和《学区划分方案（试行）》文件精神，结合学校实际情况，现将我校2023年一年级新生招生工作相关事项公布如下：
 		</view>
-		<view class="title indent">一、服务范围</view>
+		<view class="title indent">一、服务片区</view>
 		<view class="cont indent">
-			西环路以东；景西路以西；新市西街以南；凤台西街以北。
+			东至泽州路，西至黄华街南段，南至白水西街，北至文昌西街。
 		</view>
-		<view class="title indent">二、年龄要求</view>
+		<view style="text-align: center;"><image src="../../static/image/map.jpg" mode="widthFix"></image></view>
+		<view class="title indent">二、招生对象</view>
 		<view class="cont indent">
-			2017年8月31日前（含8月31日）出生，年满6周岁的适龄儿童（不接受已在其他学校就读并已注册学籍的学生）。
+			在服务片区内实际居住，且年满6周岁（2017年8月31日前出生）的城区户籍适龄儿童和符合条件的进城务工人员随迁子女。
 		</view>
-		<view class="title indent">三、验证时间</view>
+		<view class="title indent">三、招生数量</view>
 		<view class="cont indent">
-			8月18日—19日 上午8:30—12:00 下午3:00—6:30
+			4个教学班，共180人。
+		</view>
+		<view class="title indent">四、招生原则</view>
+		<view class="cont indent">
+			1. 划片免试、相对就近及房户一致优先入学原则；
 		</view>
 		<view class="cont indent">
-			如以上两天完不成验证，将视预约验证情况延长至8月20日上午12:00。
+			2.公开、公平、公正原则；
 		</view>
-		<view class="title indent">四、验证地点</view>
 		<view class="cont indent">
-			中学部一楼阶梯教室。
+			3.总量控制原则。
 		</view>
-		<view class="title indent">五、所需证件及材料</view>
-		<view class="cont indent">验证时家长须携带<text class="strong">“线下验证码”及以下证件的原件和复印件：</text></view>
-		<view class="cont indent">1.现常住地户口簿（适龄儿童户籍应与父母一致，且须是2023年6月30日前理入的）；</view>
-		<view class="cont indent">2.和常住地户口簿地址一致的房产证明（房产证/不动产证/正式购房合同/购房发票等）；</view>
-		<view class="cont indent">3.预防接种情况审核报告单。</view>
-		<view class="cont indent">验证后符合入学条件的，由学校进行录取。</view>
-		<!-- <view class="title">六、日程安排</view>
-		<view class="cont">1.8月12日上午审验1—70序号的相关证件；</view>
-		<view class="cont">2.8月12日下午审验71—150序号的相关证件；</view>
-		<view class="cont">3.8月13日上午审验151—225序号的相关证件；</view>
-		<view class="cont">4.8月13日下午审验226以后序号的相关证件。</view> -->
-		<view class="title indent">六、验证程序</view>
-		<view class="cont indent">1.按在我校“线上预约小程序”上预约的时间段和顺序号入校验证；</view>
-		<view class="cont indent">2.证件查验；</view>
-		<view class="cont indent">3.注册登记；</view>
-		<view class="cont indent">4.网上信息确认。</view>
-		<view class="title indent">温馨提示</view>
-		<view class="cont indent"><text class="strong">1.入校验证实行扫码预约，凡符合我校入学条件的都会被录取，无需排队。每位儿童的姓名及对应的身份证号只能预约一次；</text></view>
-		<view class="cont indent">2.请适龄儿童父母其中一方亲自持相关材料验证，非第一监护人请勿代劳；</view>
-		<view class="cont indent">3.户口簿复印件应将户口薄主页（有地址、派出所公章页）、户主页、适龄儿童页复印<text class="strong">在一页A4纸上</text>，所有原件学校留存后将视情况到发证和出具机关（单位）及相关官网复核，开学后发还；</view>
-		<view class="cont indent">4.8月28日上午9:00，按照市教育局统一安排，在有关部门及家长代表的监督下进行<text class="strong">阳光编班</text>；</view>
-		<view class="cont indent">5.烈士和现役军人子女、市（区）政府引进的高级人才子女等按照有关政策执行；</view>
-		<view class="cont indent"><text class="strong">户籍证明以2023年6月30日前理入为准，不接受挂靠户口。凡提供虚假住房及户籍证明骗取入学资格的，除取消入学资格外，报有关部门录入公民个人征信系统。</text></view>
-		<view class="cont indent" style="margin-top: 20rpx;"><text class="strong">监督电话：0356-2213568</text></view>
-		<view class="cont right" style="margin-top: 50rpx;">二〇二三年八月</view>
+		<view class="title indent">五、报名程序及相关事项</view>
+		<view class="cont indent"><text class="strong">（一）线上信息登记：7月11日0时至7月15日24时</text></view>
+		<view class="cont indent">请在“晋来办”APP中登录“晋城市小学入学登记系统”进行信息登记，登记成功可自动生成“线下验证码”。监护人要保证信息真实性，凡填报虚假信息和未登记信息的，取消报名资格，后果自负。</view>
+		<view class="cont indent"><text class="strong">（二）学校验证录取：分两个阶段进行</text></view>
+		<view class="cont indent">1.第一阶段：8月18日至19日，城区户籍适龄儿童。</view>
+		<view class="cont indent">请携带<text class="strong">孩子、线下验证码</text>及<text class="strong">以下证件的原件和复印件：</text>（1）户口簿；（2）和常住地户口簿地址一致的房产证明（房产证/购房合同/购房收据/公租房协议及合同等）。验证后符合入学条件的，学校予以录取。</view>
+		<view class="cont indent">2.第二阶段：8月22日至23日，符合条件的进城务工人员随迁子女。</view>
+		<view class="cont indent">请携带<text class="strong">孩子、线下验证码</text>及<text class="strong">以下证件的原件和复印件：</text>（1）户口簿；（2）父母双方或法定监护人居住证明材料（居住证/居住登记证明）；（3）父母双方或法定监护人创业就业情况证明材料（创业就业证/劳动合同备案表/营业执照等）。验证后符合入学条件的，由学校根据空余学位情况，按照《居住证》等有效证件签发时间顺序进行录取。未被录取的学生请到相对就近学校就读。</view>
+		<view class="cont indent"><text class="strong">（三）阳光分班：8月28日上午，对录取学生进行电脑配位、阳光分班。</text></view>
+		<view class="title indent">六、其他</view>
+		<view class="cont indent">（一）审核工作时间：上午8:30—11:30  下午3:30—6:30</view>
+		<view class="cont indent">（二）审核地点：晋城市中原街小学院内</view>
+		<view class="cont indent">（三）咨询电话：2213290      举报电话：2087671</view>
+		<view class="cont indent">（四）更多详细资讯请扫码关注“中原街小学公众号”获取。</view>
+		
+		<view class="cont right" style="margin-top: 50rpx;">2023年8月16日</view>
 	</view>
 </template>
 
